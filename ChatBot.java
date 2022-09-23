@@ -9,7 +9,6 @@ public class ChatBot {
 
     public static void main(String[] args) {
         try {
-
             while (true) {
                 Update update = getUpdate();
                 updateUserMessageHistory(update);
