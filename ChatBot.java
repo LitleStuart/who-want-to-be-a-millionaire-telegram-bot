@@ -1,18 +1,24 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ChatBot {
     private static Map<Integer, User> users = new HashMap<Integer, User>();
     private static ArrayList<Integer> listId = new ArrayList<>();
 
     public static void main(String[] args) {
-        while (true) {
-            Update update = getUpdate();
-            updateUserMessageHistory(update);
-            User user = getUser(update.chatId);
-            String answer = generateAnswer(user);
-            sendAnswer(answer);
+        try {
+
+            while (true) {
+                Update update = getUpdate();
+                updateUserMessageHistory(update);
+                User user = getUser(update.chatId);
+                String answer = generateAnswer(user);
+                sendAnswer(answer);
+            }
+        } catch (final NoSuchElementException ex) {
+            System.out.println("Good bye!");
         }
     }
 
