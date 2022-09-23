@@ -6,6 +6,5 @@ public class Message {
     Message() {
         Scanner in = new Scanner(System.in);
         this.text = in.nextLine();
-        in.close();
     }
 }
