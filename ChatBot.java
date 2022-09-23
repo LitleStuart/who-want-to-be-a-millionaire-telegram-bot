@@ -46,8 +46,12 @@ public class ChatBot {
     }
 
     private static String generateAnswer(User user) {
+        String answer = "";
+        for (int i = 0; i < user.messages.size(); i++) {
+            answer += user.messages.get(i).text + '\n';
+        }
         return "Your ID: " + user.id + '\n' +
-                "You have written " + user.messages.size() + " message(s)";
+                "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
     }
 
     private static void sendAnswer(String answer) {
