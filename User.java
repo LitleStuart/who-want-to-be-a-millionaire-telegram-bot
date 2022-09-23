@@ -1,8 +1,8 @@
 public class User {
-    int chatId;
+    int id;
     Message[] messages;
 
     User(int id) {
-        this.chatId = id;
+        this.id = id;
     }
 }
