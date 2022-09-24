@@ -8,16 +8,12 @@ public class ChatBot {
     private static ArrayList<Integer> listId = new ArrayList<>();
 
     public static void main(String[] args) {
-        try {
-            while (true) {
-                Update update = getUpdate();
-                updateUserMessageHistory(update);
-                User user = getUser(update.chatId);
-                String answer = generateAnswer(user);
-                sendAnswer(answer);
-            }
-        } catch (final NoSuchElementException ex) {
-            System.out.println("Good bye!");
+        while (true) {
+            Update update = getUpdate();
+            updateUserMessageHistory(update);
+            User user = getUser(update.chatId);
+            String answer = generateAnswer(user);
+            sendAnswer(answer);
         }
     }
 
