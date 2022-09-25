@@ -1,11 +1,9 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class ChatBot {
     private static Map<Integer, User> users = new HashMap<Integer, User>();
-    private static ArrayList<Integer> listId = new ArrayList<>();
+    private static int listId = 0;
 
     public static void main(String[] args) {
         while (true) {
@@ -23,13 +21,7 @@ public class ChatBot {
 
     private static void updateUserMessageHistory(Update update) {
         if (users.isEmpty() || !users.containsKey(update.chatId)) {
-            int newId;
-            if (listId.size() != 0) {
-                newId = max(listId) + 1;
-            } else {
-                newId = 0;
-            }
-            listId.add(newId);
+            int newId = listId++;
             users.put(update.chatId, new User(newId));
         }
         User user = users.get(update.chatId);
@@ -51,14 +43,5 @@ public class ChatBot {
 
     private static void sendAnswer(String answer) {
         System.out.println(answer);
-    }
-
-    private static int max(ArrayList<Integer> arr) {
-        int max = arr.get(0);
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i) > max)
-                max = arr.get(i);
-        }
-        return max;
     }
 }
