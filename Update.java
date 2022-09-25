@@ -1,13 +1,9 @@
-import java.util.Scanner;
-
 public class Update {
-    int chatId;
+    long chatId;
     Message message;
 
-    Update(int id) {
+    Update(long id, Message message) {
         this.chatId = id;
-
-        Scanner in = new Scanner(System.in);
-        this.message = new Message(in.nextLine());
+        this.message = message;
     }
 }

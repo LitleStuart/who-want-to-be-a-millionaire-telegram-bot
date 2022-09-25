@@ -2,24 +2,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatBot {
-    private static Map<Integer, User> users = new HashMap<Integer, User>();
-    private static int listId = 0;
+    ChatBot(IBotApi botApi) {
+        this.botApi = botApi;
+    }
 
-    public static void main(String[] args) {
-        while (true) {
-            Update update = getUpdate();
+    private IBotApi botApi;
+
+    private Map<Long, User> users = new HashMap<Long, User>();
+    private int listId = 0;
+
+    public void run() {
+        this.botApi.registerOnUpdate((update) -> {
             updateUserMessageHistory(update);
             User user = getUser(update.chatId);
             String answer = generateAnswer(user);
-            sendAnswer(answer);
-        }
+            this.botApi.sendAnswer(answer);
+        });
     }
 
-    private static Update getUpdate() {
-        return new Update(0);
-    }
-
-    private static void updateUserMessageHistory(Update update) {
+    private void updateUserMessageHistory(Update update) {
         if (users.isEmpty() || !users.containsKey(update.chatId)) {
             int newId = listId++;
             users.put(update.chatId, new User(newId));
@@ -28,11 +29,11 @@ public class ChatBot {
         user.messages.add(user.messages.size(), update.message);
     }
 
-    private static User getUser(int chatId) {
+    private User getUser(long chatId) {
         return users.get(chatId);
     }
 
-    private static String generateAnswer(User user) {
+    private String generateAnswer(User user) {
         String answer = "";
         for (int i = 0; i < user.messages.size(); i++) {
             answer += user.messages.get(i).text + '\n';
@@ -41,7 +42,4 @@ public class ChatBot {
                 "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
     }
 
-    private static void sendAnswer(String answer) {
-        System.out.println(answer);
-    }
 }
