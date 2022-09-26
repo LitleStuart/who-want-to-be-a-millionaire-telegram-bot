@@ -1,9 +1,9 @@
 public class Update {
-    int chatId;
+    long chatId;
     Message message;
 
-    Update(int id) {
+    Update(long id, Message message) {
         this.chatId = id;
-        this.message = new Message();
+        this.message = message;
     }
 }
