@@ -1,5 +1,5 @@
 public interface IBotApi {
     public void registerOnUpdate(IOnUpdate updateHandler);
 
-    public void sendAnswer(String text);
+    public void sendAnswer(long chatId, String text);
 }

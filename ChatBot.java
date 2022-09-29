@@ -16,7 +16,7 @@ public class ChatBot {
             updateUserMessageHistory(update);
             User user = getUser(update.chatId);
             String answer = generateAnswer(user);
-            this.botApi.sendAnswer(answer);
+            this.botApi.sendAnswer(update.chatId, answer);
         });
     }
 

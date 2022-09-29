@@ -11,7 +11,7 @@ public class ConsoleBotApi implements IBotApi {
     }
 
     @Override
-    public void sendAnswer(String text) {
+    public void sendAnswer(long chatId, String text) {
         System.out.println(text);
     }
 }
