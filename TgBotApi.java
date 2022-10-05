@@ -1,23 +1,31 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
-    private IOnUpdate updateHandler;
+    private ChatBot bot;
 
-    @Override
-    public void registerOnUpdate(IOnUpdate onUpdate) {
-        this.updateHandler = onUpdate;
+    TgBotApi() {
+        bot = new ChatBot(this);
     }
 
     @Override
     public void sendAnswer(long chatId, String text) {
-        System.out.println(text);
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         String message = update.getMessage().getText();
         long chatId = update.getMessage().getChatId();
-        updateHandler.onUpdate(new Update(chatId, new Message(message)));
+        bot.handleMessage(new Update(chatId, new Message(message)));
     }
 
     @Override
