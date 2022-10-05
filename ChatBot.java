@@ -11,13 +11,11 @@ public class ChatBot {
     private Map<Long, User> users = new HashMap<Long, User>();
     private int listId = 0;
 
-    public void run() {
-        this.botApi.registerOnUpdate((update) -> {
-            updateUserMessageHistory(update);
-            User user = getUser(update.chatId);
-            String answer = generateAnswer(user);
-            this.botApi.sendAnswer(update.chatId, answer);
-        });
+    public void handleMessage(Update update) {
+        updateUserMessageHistory(update);
+        User user = getUser(update.chatId);
+        String answer = generateAnswer(user);
+        this.botApi.sendAnswer(update.chatId, answer);
     }
 
     private void updateUserMessageHistory(Update update) {
