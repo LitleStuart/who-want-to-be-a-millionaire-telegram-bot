@@ -41,5 +41,4 @@ public class ChatBot {
         return "Your ID: " + user.id + '\n' +
                 "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
     }
-
 }
