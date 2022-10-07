@@ -25,17 +25,17 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         String message = update.getMessage().getText();
         long chatId = update.getMessage().getChatId();
-        bot.handleMessage(new Update(chatId, new Message(message)));
+        bot.handleUpdate(new Update(chatId, new Message(message)));
     }
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "null";
     }
 
     @Override
     public String getBotToken() {
-        return null;
+        return "";
     }
 
 }

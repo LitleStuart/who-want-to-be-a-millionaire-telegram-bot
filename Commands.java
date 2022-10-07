@@ -1,16 +1,14 @@
 public class Commands {
 
     public String messageReact(User user) {
-        String[] message = String.valueOf(user.messages.get(user.messages.size() - 1).text).split(" ");
+        String[] message = { "123" };
         String outputMessage = new String();
         switch (message[0]) {
             case ("/help"): {
                 outputMessage = ("Millionaire bot\n"
-                        + "List of commands\n"
-                        + "/help | to get information\n"
-                        + "/start | to start the game\n"
-                        + "/nickname [your name] | to set your name\n"
-                        + "/info | to get your statistics");
+                        + "/help – get information\n"
+                        + "/start – start the game\n"
+                        + "/info – get your info");
                 break;
             }
             case ("/start"): {

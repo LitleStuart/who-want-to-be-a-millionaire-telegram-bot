@@ -13,6 +13,7 @@ public class Game {
 
     /**
      * Processes GET API call and returns response.
+     * 
      * @param url URL of question
      * @return Response (JSONObject)
      * @throws IOException
@@ -34,6 +35,7 @@ public class Game {
 
     /**
      * Returns all questions.
+     * 
      * @return Questions (ArrayList)
      * @throws IOException
      */

@@ -8,41 +8,25 @@ public class Bot {
 
     private IBotApi botApi;
 
-    private Map<Long, User> users = new HashMap<Long, User>();
     private int listId = 0;
+    private Map<Long, User> users = new HashMap<Long, User>();
 
-    public void handleMessage(Update update, boolean... withAnswer) {
-        updateUserMessageHistory(update);
-        User user = getUser(update.chatId);
-        String answer = generateAnswer(user);
+    public void handleUpdate(Update update) {
+        User user = getUser(update);
+        String answer = generateAnswer(user, update.message);
         this.botApi.sendAnswer(update.chatId, answer);
     }
 
-    private void updateUserMessageHistory(Update update) {
+    private User getUser(Update update) {
         if (users.isEmpty() || !users.containsKey(update.chatId)) {
             int newId = listId++;
             users.put(update.chatId, new User(newId));
         }
-        User user = users.get(update.chatId);
-        user.messages.add(user.messages.size(), update.message);
+        return users.get(update.chatId);
     }
 
-    private User getUser(long chatId) {
-        return users.get(chatId);
-    }
-
-    private String generateAnswer(User user) {
+    private String generateAnswer(User user, Message message) {
         Commands coms = new Commands();
         return coms.messageReact(user);
-
-        /*
-         * String answer = "";
-         * for (int i = 0; i < user.messages.size(); i++) {
-         * answer += user.messages.get(i).text + '\n';
-         * }
-         * return "Your ID: " + user.id + '\n' +
-         * "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
-         * 
-         */
     }
 }
