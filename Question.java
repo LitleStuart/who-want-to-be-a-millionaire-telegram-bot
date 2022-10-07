@@ -1,20 +1,30 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Question {
+    class Answer {
+        public String answer;
+        public boolean isCorrect;
+
+        public Answer(String answer, boolean isCorrect) {
+            this.answer = answer;
+            this.isCorrect = isCorrect;
+        }
+    }
+
     private final String question;
-    private final HashMap<String, Boolean> answers;
+    private final ArrayList<Answer> answers;
 
     public Question(String question, JSONArray answers) {
         this.question = question;
-        this.answers = new HashMap<>();
+        this.answers = new ArrayList<>();
 
         for (int index = 0; index < 4; index++) {
             JSONObject answer = answers.getJSONObject(index);
-            this.answers.put(answer.getString("answer"), Objects.equals(answer.getInt("key"), 1));
+            this.answers.add(new Answer(answer.getString("answer"), Objects.equals(answer.getInt("key"), 1)));
         }
     }
 
@@ -22,7 +32,7 @@ public class Question {
         return question;
     }
 
-    public HashMap<String, Boolean> getAnswers() {
+    public ArrayList<Answer> getAnswers() {
         return answers;
     }
 }
