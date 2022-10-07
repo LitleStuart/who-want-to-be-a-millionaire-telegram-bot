@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
-public class ConsoleBotProgram {
+public class ConsoleChatBotProgram {
     public static void main(String[] args) {
-        Bot bot = new Bot((chatId, text) -> {
+        ChatBot bot = new ChatBot((chatId, text) -> {
             System.out.println(text);
         });
 
