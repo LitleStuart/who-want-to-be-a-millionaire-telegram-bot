@@ -3,10 +3,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
-    private ChatBot bot;
+    private Bot bot;
 
     TgBotApi() {
-        bot = new ChatBot(this);
+        bot = new Bot(this);
     }
 
     @Override

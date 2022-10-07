@@ -3,12 +3,12 @@ import java.io.*;
 import java.net.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
     private final String url = "https://ru.wwbm.com/game/get-question/";
 
-    public Game() {}
+    public Game() {
+    }
 
     private JSONObject getResponse(URL url) throws IOException {
         StringBuilder result = new StringBuilder();
@@ -18,7 +18,7 @@ public class Game {
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(conn.getInputStream()))) {
-            for (String line; (line = reader.readLine()) != null; ) {
+            for (String line; (line = reader.readLine()) != null;) {
                 result.append(line);
             }
         }

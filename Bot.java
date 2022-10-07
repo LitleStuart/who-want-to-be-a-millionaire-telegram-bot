@@ -1,8 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChatBot {
-    ChatBot(IBotApi botApi) {
+public class Bot {
+    Bot(IBotApi botApi) {
         this.botApi = botApi;
     }
 
@@ -32,16 +32,17 @@ public class ChatBot {
     }
 
     private String generateAnswer(User user) {
-        Commands coms = new Commands ();
-        return ( coms.messageReact ( user ) );
+        Commands coms = new Commands();
+        return coms.messageReact(user);
 
-        /*String answer = "";
-        for (int i = 0; i < user.messages.size(); i++) {
-            answer += user.messages.get(i).text + '\n';
-        }
-        return "Your ID: " + user.id + '\n' +
-                "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
-
+        /*
+         * String answer = "";
+         * for (int i = 0; i < user.messages.size(); i++) {
+         * answer += user.messages.get(i).text + '\n';
+         * }
+         * return "Your ID: " + user.id + '\n' +
+         * "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
+         * 
          */
     }
 }
