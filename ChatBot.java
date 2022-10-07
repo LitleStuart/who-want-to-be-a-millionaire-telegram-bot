@@ -32,8 +32,8 @@ public class ChatBot {
     }
 
     private String generateAnswer(User user) {
-        Commands coms=new Commands();
-        return(coms.messageReact(user));
+        Commands coms = new Commands ();
+        return ( coms.messageReact ( user ) );
 
         /*String answer = "";
         for (int i = 0; i < user.messages.size(); i++) {

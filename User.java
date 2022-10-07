@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class User {
     int id;
-    ArrayList<Message> messages = new ArrayList<>();
+    ArrayList <Message> messages = new ArrayList <> ();
 
     String name;
     int highScore;
@@ -10,7 +10,7 @@ public class User {
 
     User(int id) {
         this.id = id;
-        name=new String();
-        highScore=0;
+        name = new String ();
+        highScore = 0;
     }
 }
