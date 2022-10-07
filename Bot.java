@@ -1,8 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChatBot {
-    ChatBot(IBotApi botApi) {
+public class Bot {
+    Bot(IBotApi botApi) {
         this.botApi = botApi;
     }
 
