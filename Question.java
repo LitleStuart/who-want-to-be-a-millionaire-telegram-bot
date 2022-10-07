@@ -23,8 +23,10 @@ public class Question {
         this.answers = new ArrayList<>();
 
         for (int index = 0; index < 4; index++) {
-            JSONObject answer = answers.getJSONObject(index);
-            this.answers.add(new Answer(answer.getString("answer"), Objects.equals(answer.getInt("key"), 1)));
+            JSONObject answerJSON = answers.getJSONObject(index);
+            Answer answer = new Answer(answerJSON.getString("answer"),
+                    Objects.equals(answerJSON.getInt("key"), 1));
+            this.answers.add(answer);
         }
     }
 
