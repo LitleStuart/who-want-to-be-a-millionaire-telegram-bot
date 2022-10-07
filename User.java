@@ -1,10 +1,16 @@
 import java.util.ArrayList;
 
 public class User {
-    long id;
-    ArrayList<Message> messages;
+    int id;
+    ArrayList<Message> messages = new ArrayList<>();
 
-    User(long id) {
+    String name;
+    int highScore;
+    //in-game variables???
+
+    User(int id) {
         this.id = id;
+        name=new String();
+        highScore=0;
     }
 }
