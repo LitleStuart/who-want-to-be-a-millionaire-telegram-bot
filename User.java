@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class User {
-    long id;
-    ArrayList<Message> messages;
+    int id;
+    ArrayList<Message> messages = new ArrayList<>();
 
-    User(long id) {
+    User(int id) {
         this.id = id;
     }
 }
