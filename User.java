@@ -24,6 +24,6 @@ public class User {
         isInGame = true;
         game=new Game ();
         curQuestion = 0;
-        hints=3;
+        hints=1;
     }
 }

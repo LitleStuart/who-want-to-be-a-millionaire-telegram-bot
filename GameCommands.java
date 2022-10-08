@@ -12,7 +12,7 @@ public class GameCommands {
             //return bool
             if (curQuestion.getAnswers ().get ( (message[0].charAt ( 0 ))-'A' ).isCorrect) {
                 user.curQuestion++;
-                responceMessage = "Correct, next question \n";
+                responceMessage = "Правильно, следующий вопрос \n";
                 responceMessage += user.game.showQuestions ().get ( user.curQuestion ).getQuestion ()+'\n';
                 for (int i=0;i<4;i++)
                 {
@@ -24,7 +24,7 @@ public class GameCommands {
                 user.highScore=Math.max(user.highScore,user.curQuestion);
                 user.curQuestion=0;
                 user.isInGame=false;
-                responceMessage = "You lost, to retry type /start";
+                responceMessage = "Вы проиграли, чтобы начать заново /start";
             }
             return responceMessage;
         }
@@ -35,11 +35,11 @@ public class GameCommands {
             {
                 if (curQuestion.hintIsUsed ())
                 {
-                    responceMessage="You have already used hint here";
+                    responceMessage="Вы уже использовали подсказку на этом вопросе";
                     return responceMessage;
                 }
                 int wrongCounter=0;
-                responceMessage="Wrong answers are:\n";
+                responceMessage="Неправильные ответы:\n";
                 for (int i=0;i<4;i++)
                 {
                     if (!curQuestion.getAnswers ().get(i).isCorrect)
@@ -57,13 +57,22 @@ public class GameCommands {
             }
             else
             {
-                responceMessage="You have no hints left";
+                responceMessage="У вас не осталось подсказок";
+                return responceMessage;
             }
 
         }
-        responceMessage = "Wrong format of message, type /help for more info";
-        user.isInGame=false;
-        user.curQuestion=0;
-        return responceMessage;
+        responceMessage = "Неправильный формат ввода, используйте /help для получения информации";
+        if (new ChatCommands().respond( user )==responceMessage)
+        {
+            user.isInGame=false;
+            user.curQuestion=0;
+            return responceMessage;
+        }
+        else
+        {
+            return  new ChatCommands().respond( user );
+        }
+
     }
 }
