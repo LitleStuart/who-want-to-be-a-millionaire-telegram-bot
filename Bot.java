@@ -11,11 +11,16 @@ public class Bot {
     private Map<Long, User> users = new HashMap<Long, User>();
     private int listId = 0;
 
-    public void handleMessage(Update update) {
+    public void handleMessage(Update update, boolean... withAnswer) {
         updateUserMessageHistory(update);
         User user = getUser(update.chatId);
         String answer = generateAnswer(user);
         this.botApi.sendAnswer(update.chatId, answer);
+    }
+
+    public void sendMessage(int chatId, String message)
+    {
+        this.botApi.sendAnswer ( chatId,message );
     }
 
     private void updateUserMessageHistory(Update update) {
@@ -24,7 +29,7 @@ public class Bot {
             users.put(update.chatId, new User(newId));
         }
         User user = users.get(update.chatId);
-        user.messages.add(user.messages.size(), update.message);
+        user.lastMessage=update.message;
     }
 
     private User getUser(long chatId) {
@@ -32,11 +37,15 @@ public class Bot {
     }
 
     private String generateAnswer(User user) {
-        String answer = "";
-        for (int i = 0; i < user.messages.size(); i++) {
-            answer += user.messages.get(i).text + '\n';
+        if (user.isInGame)
+        {
+            GameCommands gameCom=new GameCommands ();
+            return gameCom.respond ( user );
         }
-        return "Your ID: " + user.id + '\n' +
-                "You have written " + user.messages.size() + " message(s):" + '\n' + answer;
+        else
+        {
+            ChatCommands chatCom=new ChatCommands ();
+            return chatCom.respond ( user );
+        }
     }
 }

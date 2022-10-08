@@ -5,7 +5,6 @@ public class ConsoleBotProgram {
         Bot bot = new Bot((chatId, text) -> {
             System.out.println(text);
         });
-
         Scanner in = new Scanner(System.in);
         while (true) {
             bot.handleMessage(new Update(0, new Message(in.nextLine())));
