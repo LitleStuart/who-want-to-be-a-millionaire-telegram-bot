@@ -1,21 +1,20 @@
 public class GameCommands {
 
-    public String respond(User user) {
-        String[] message = (user.lastMessage.text.split(" "));
+    public String respond(User user, String message) {
         String responceMessage = new String();
-        if (message[0].contentEquals("A") || message[0].contentEquals("B")
-                || message[0].contentEquals("C") || message[0].contentEquals("D")) // refactor later
+        if (message.contentEquals("A") || message.contentEquals("B")
+                || message.contentEquals("C") || message.contentEquals("D")) // refactor later
         {
-            Question curQuestion = user.game.showQuestions().get(user.curQuestion);
+            Question curQuestion = user.game.questions.get(user.curQuestion);
             // game check answer
             // return bool
-            if (curQuestion.getAnswers().get((message[0].charAt(0)) - 'A').isCorrect) {
+            if (curQuestion.getAnswers().get((message.charAt(0)) - 'A').isCorrect) {
                 user.curQuestion++;
                 responceMessage = "Правильно, следующий вопрос \n";
-                responceMessage += user.game.showQuestions().get(user.curQuestion).getQuestion() + '\n';
+                responceMessage += user.game.questions.get(user.curQuestion).getQuestion() + '\n';
                 for (int i = 0; i < 4; i++) {
                     responceMessage += (char) ('A' + i) + "-"
-                            + user.game.showQuestions().get(user.curQuestion).getAnswers().get(i).answer + '\n';
+                            + user.game.questions.get(user.curQuestion).getAnswers().get(i).answer + '\n';
                 }
             } else {
                 user.highScore = Math.max(user.highScore, user.curQuestion);
@@ -25,8 +24,8 @@ public class GameCommands {
             }
             return responceMessage;
         }
-        if (message[0].contentEquals("/hint")) {
-            Question curQuestion = user.game.showQuestions().get(user.curQuestion);
+        if (message.contentEquals("/hint")) {
+            Question curQuestion = user.game.questions.get(user.curQuestion);
             if (user.hints > 0) {
                 if (curQuestion.hintIsUsed()) {
                     responceMessage = "Вы уже использовали подсказку на этом вопросе";
@@ -52,10 +51,10 @@ public class GameCommands {
             }
 
         }
-        if (message[0].contentEquals("/exit")) {
+        if (message.contentEquals("/exit")) {
             user.isInGame = false;
             user.curQuestion = 0;
         }
-        return new ChatCommands().respond(user);
+        return new ChatCommands().respond(user, message);
     }
 }

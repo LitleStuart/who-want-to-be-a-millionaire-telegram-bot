@@ -10,15 +10,15 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void sendAnswer(long chatId, String  text) {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(chatId);
-            sendMessage.setText(text);
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+    public void sendAnswer(long chatId, String text) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

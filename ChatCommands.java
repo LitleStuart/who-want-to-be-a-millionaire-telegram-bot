@@ -1,18 +1,13 @@
 public class ChatCommands {
-    public String respond(User user) {
-        String[] message = (user.lastMessage.text.split(" "));
+    public String respond(User user, String message) {
         String responceMessage = new String();
-        switch (message[0]) {
+        switch (message) {
             case ("/help"): {
                 responceMessage = new HelpCommand().doCommand();
                 break;
             }
             case ("/start"): {
                 responceMessage = new StartCommand().doCommand(user);
-                break;
-            }
-            case ("/nickname"): {
-                responceMessage = new NickCommand().doCommand(user, message);
                 break;
             }
             case ("/info"): {

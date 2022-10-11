@@ -7,21 +7,16 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Game {
-    private ArrayList<Question> questions;
-    public Game() {
+    public ArrayList<Question> questions;
+
+    Game() {
         try {
-            questions=this.getQuestions ();
+            questions = this.buildQustions();
         } catch (IOException e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Processes GET API call and returns response.
-     * @param url URL of question
-     * @return Response (JSONObject)
-     * @throws IOException
-     */
     private JSONObject getResponse(URL url) throws IOException {
         StringBuilder result = new StringBuilder();
 
@@ -37,12 +32,7 @@ public class Game {
         return new JSONObject(result.toString());
     }
 
-    /**
-     * Returns all questions.
-     * @return Questions (ArrayList)
-     * @throws IOException
-     */
-    private ArrayList<Question> getQuestions() throws IOException {
+    private ArrayList<Question> buildQustions() throws IOException {
         String url = "https://ru.wwbm.com/game/get-question/";
 
         ArrayList<Question> questions = new ArrayList<>();
@@ -52,11 +42,6 @@ public class Game {
             Question question = new Question(json.getString("question"), json.getJSONArray("answers"));
             questions.add(question);
         }
-        return questions;
-    }
-
-    public ArrayList<Question> showQuestions()
-    {
         return questions;
     }
 }

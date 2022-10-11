@@ -1,6 +1,6 @@
 public class User {
-    int id;
-    Message lastMessage;
+    long id;
+    IScene scene;
 
     String name;
     int highScore;
@@ -10,9 +10,9 @@ public class User {
     int curQuestion;
     int hints;
 
-    User(int id) {
-        this.id = id;
-        lastMessage = new Message(new String());
+    User(long chatId, IScene scene) {
+        this.id = chatId;
+        this.scene = scene;
         name = new String();
         highScore = 0;
     }
