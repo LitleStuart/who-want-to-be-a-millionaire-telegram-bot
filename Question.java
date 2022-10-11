@@ -17,7 +17,7 @@ public class Question {
 
     private final String question;
     private final ArrayList<Answer> answers;
-    private boolean hintUsed=false;
+    private boolean hintUsed = false;
 
     public Question(String question, JSONArray answers) {
         this.question = question;
@@ -39,6 +39,11 @@ public class Question {
         return answers;
     }
 
-    public boolean hintIsUsed() {return hintUsed;}
-    public void useHint() {hintUsed=true;}
+    public boolean hintIsUsed() {
+        return hintUsed;
+    }
+
+    public void useHint() {
+        hintUsed = true;
+    }
 }

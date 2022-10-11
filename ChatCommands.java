@@ -4,7 +4,7 @@ public class ChatCommands {
         String responceMessage = new String();
         switch (message[0]) {
             case ("/help"): {
-                responceMessage = new HelpCommand ().doCommand ();
+                responceMessage = new HelpCommand().doCommand();
                 break;
             }
             case ("/start"): {
@@ -12,11 +12,11 @@ public class ChatCommands {
                 break;
             }
             case ("/nickname"): {
-                responceMessage=new NickCommand().doCommand( user,message );
+                responceMessage = new NickCommand().doCommand(user, message);
                 break;
             }
             case ("/info"): {
-                responceMessage = new InfoCommand().doCommand( user );
+                responceMessage = new InfoCommand().doCommand(user);
                 break;
             }
 

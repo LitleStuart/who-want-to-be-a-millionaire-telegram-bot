@@ -18,9 +18,8 @@ public class Bot {
         this.botApi.sendAnswer(update.chatId, answer);
     }
 
-    public void sendMessage(int chatId, String message)
-    {
-        this.botApi.sendAnswer ( chatId,message );
+    public void sendMessage(int chatId, String message) {
+        this.botApi.sendAnswer(chatId, message);
     }
 
     private void updateUserMessageHistory(Update update) {
@@ -29,7 +28,7 @@ public class Bot {
             users.put(update.chatId, new User(newId));
         }
         User user = users.get(update.chatId);
-        user.lastMessage=update.message;
+        user.lastMessage = update.message;
     }
 
     private User getUser(long chatId) {
@@ -37,15 +36,12 @@ public class Bot {
     }
 
     private String generateAnswer(User user) {
-        if (user.isInGame)
-        {
-            GameCommands gameCom=new GameCommands ();
-            return gameCom.respond ( user );
-        }
-        else
-        {
-            ChatCommands chatCom=new ChatCommands ();
-            return chatCom.respond ( user );
+        if (user.isInGame) {
+            GameCommands gameCom = new GameCommands();
+            return gameCom.respond(user);
+        } else {
+            ChatCommands chatCom = new ChatCommands();
+            return chatCom.respond(user);
         }
     }
 }
