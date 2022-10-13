@@ -44,12 +44,12 @@ public class MainMenuScene implements IScene {
 
         String responseMessage;
         user.startGame();
-        Question q=new BuildJSONObject().toQuestion(user.curQuestionIndex );
-        user.curQuestion=q;
-        responseMessage = q.getQuestion()+'\n';
+        Question q = new BuildJSONObject().toQuestion(user.curQuestionIndex);
+        user.curQuestion = q;
+        responseMessage = q.getQuestion() + '\n';
         for (int i = 0; i < 4; i++) {
             responseMessage += (char) ('A' + i) + ": "
-                    + q.getAnswers().get( i ).answer +'\n';
+                    + q.getAnswers().get(i).answer + '\n';
         }
         botApi.sendAnswer(user.id, responseMessage);
         user.scene = sceneFactory.createGameScene();

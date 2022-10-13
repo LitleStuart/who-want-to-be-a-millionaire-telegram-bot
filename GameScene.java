@@ -11,13 +11,12 @@ public class GameScene implements IScene {
 
     @Override
     public void handleMessage(User user, Message message) throws IOException {
-        if (message.text.contentEquals( "A" )||message.text.contentEquals( "B" )
-                ||message.text.contentEquals( "C" )||message.text.contentEquals( "D" )) {
-            if (new AnswerChecker().isAnswerCorrect(user,message.text)) {
-                message.text="Right";
-            }
-            else {
-                message.text="Wrong";
+        if (message.text.contentEquals("A") || message.text.contentEquals("B")
+                || message.text.contentEquals("C") || message.text.contentEquals("D")) {
+            if (new AnswerChecker().isAnswerCorrect(user, message.text)) {
+                message.text = "Right";
+            } else {
+                message.text = "Wrong";
             }
         }
         switch (message.text) {
@@ -49,7 +48,7 @@ public class GameScene implements IScene {
     }
 
     private void executeGameExitCommand(User user) {
-        botApi.sendAnswer(user.id, "Игра окончена.\nВаш счет: " + user.curQuestionIndex );
+        botApi.sendAnswer(user.id, "Игра окончена.\nВаш счет: " + user.curQuestionIndex);
         user.curQuestionIndex = 0;
         user.scene = sceneFactory.createFallbackScene();
         botApi.sendAnswer(user.id, "Чтобы начать новую игру, введите /start");
@@ -73,12 +72,12 @@ public class GameScene implements IScene {
     }
 
     private String buildQuestionWithAnswers(User user) throws IOException {
-        Question q=new BuildJSONObject().toQuestion(user.curQuestionIndex );
-        user.curQuestion=q;
+        Question q = new BuildJSONObject().toQuestion(user.curQuestionIndex);
+        user.curQuestion = q;
         String result = q.getQuestion() + '\n';
         for (int i = 0; i < 4; i++) {
             result += (char) ('A' + i) + ": "
-                    + q.getAnswers().get( i ).answer + '\n';
+                    + q.getAnswers().get(i).answer + '\n';
         }
         return result;
     }
