@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleBotProgram {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Bot bot = new Bot((chatId, text) -> {
             System.out.println(text);
         });

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public class Bot {
 
     private Map<Long, User> users = new HashMap<Long, User>();
 
-    public void handleMessage(Update update) {
+    public void handleMessage(Update update) throws IOException {
         User user = getUser(update.chatId);
         user.scene.handleMessage(user, update.message);
     }

@@ -5,9 +5,9 @@ public class User {
     String name;
     int highScore;
     // in-game variables
-    Game game;
+    Question curQuestion;
     boolean isInGame;
-    int curQuestion;
+    int curQuestionIndex;
     int hints;
 
     User(long chatId, IScene scene) {
@@ -19,8 +19,7 @@ public class User {
 
     public void startGame() {
         isInGame = true;
-        game = new Game();
-        curQuestion = 0;
+        curQuestionIndex = 1;
         hints = 1;
     }
 }

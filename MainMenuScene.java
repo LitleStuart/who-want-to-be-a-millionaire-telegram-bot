@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class MainMenuScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
@@ -8,7 +10,7 @@ public class MainMenuScene implements IScene {
     }
 
     @Override
-    public void handleMessage(User user, Message message) {
+    public void handleMessage(User user, Message message) throws IOException {
         switch (message.text) {
             case ("/help"): {
                 executeHelpCommand(user);
@@ -38,13 +40,16 @@ public class MainMenuScene implements IScene {
         botApi.sendAnswer(user.id, responseMessage);
     }
 
-    private void executeStartGameCommand(User user) {
+    private void executeStartGameCommand(User user) throws IOException {
+
         String responseMessage;
         user.startGame();
-        responseMessage = user.game.questions.get(user.curQuestion).getQuestion() + '\n';
+        Question q=new BuildJSONObject().toQuestion(user.curQuestionIndex );
+        user.curQuestion=q;
+        responseMessage = q.getQuestion()+'\n';
         for (int i = 0; i < 4; i++) {
             responseMessage += (char) ('A' + i) + ": "
-                    + user.game.questions.get(user.curQuestion).getAnswers().get(i).answer + '\n';
+                    + q.getAnswers().get( i ).answer +'\n';
         }
         botApi.sendAnswer(user.id, responseMessage);
         user.scene = sceneFactory.createGameScene();
@@ -54,7 +59,7 @@ public class MainMenuScene implements IScene {
         String responseMessage = "Ваша статистика:\n"
                 + "Имя – " + user.name + '\n'
                 + "Рекорд – " + user.highScore + "\n"
-                + "Текущий вопрос – " + user.curQuestion;
+                + "Текущий вопрос – " + user.curQuestionIndex;
         botApi.sendAnswer(user.id, responseMessage);
     }
 }

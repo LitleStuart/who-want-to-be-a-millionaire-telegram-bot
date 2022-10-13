@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Question {
+
     class Answer {
         public String answer;
         public boolean isCorrect;
@@ -34,22 +35,8 @@ public class Question {
         }
     }
 
-    /**
-     * Returns question by index.
-     * @return Questions (ArrayList)
-     * @throws IOException
-     */
-    public ArrayList<Question> getQuestion(int index) throws IOException {
-        String url = "https://ru.wwbm.com/game/get-question/";
-
-        URL questionUrl = new URL(url + index);
-        JSONObject json = BuildJSONObjest.getResponse(questionUrl);
-        Question question = new Question(json.getString("question"), json.getJSONArray("answers"));
-        return question;
-    }
-
+    public String getQuestion() {return  question;}
     public ArrayList<Answer> getAnswers() {
-
         return answers;
     }
 }

@@ -2,6 +2,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
+
 public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     private Bot bot;
 
@@ -25,7 +27,11 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         String message = update.getMessage().getText();
         long chatId = update.getMessage().getChatId();
-        bot.handleMessage(new Update(chatId, new Message(message)));
+        try {
+            bot.handleMessage(new Update(chatId, new Message(message)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

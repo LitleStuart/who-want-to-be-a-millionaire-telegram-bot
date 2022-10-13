@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class BuildJSONObject{
 
+    public BuildJSONObject(){
+
+    }
     /**
      * Processes GET API call and returns response.
      * @param url URL of question
@@ -29,4 +32,20 @@ public class BuildJSONObject{
         }
         return new JSONObject(result.toString());
     }
+
+    /**
+     * Returns question by index.
+     * @return Questions (ArrayList)
+     * @throws IOException
+     */
+    public Question toQuestion(int index) throws IOException {
+        String url = "https://ru.wwbm.com/game/get-question/";
+
+        URL questionUrl = new URL(url + index);
+        BuildJSONObject jsonObjectBuilder=new BuildJSONObject();
+        JSONObject json = jsonObjectBuilder.getResponse(questionUrl);
+        Question question = new Question(json.getString("question"), json.getJSONArray("answers"));
+        return question;
+    }
+
 }

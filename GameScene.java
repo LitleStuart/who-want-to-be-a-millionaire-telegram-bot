@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class GameScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
@@ -8,7 +10,16 @@ public class GameScene implements IScene {
     }
 
     @Override
-    public void handleMessage(User user, Message message) {
+    public void handleMessage(User user, Message message) throws IOException {
+        if (message.text.contentEquals( "A" )||message.text.contentEquals( "B" )
+                ||message.text.contentEquals( "C" )||message.text.contentEquals( "D" )) {
+            if (new AnswerChecker().isAnswerCorrect(user,message.text)) {
+                message.text="Right";
+            }
+            else {
+                message.text="Wrong";
+            }
+        }
         switch (message.text) {
             case "/hint":
                 executeHintCommand(user);
@@ -38,15 +49,15 @@ public class GameScene implements IScene {
     }
 
     private void executeGameExitCommand(User user) {
-        botApi.sendAnswer(user.id, "Игра окончена.\nВаш счет: " + user.curQuestion);
-        user.curQuestion = 0;
+        botApi.sendAnswer(user.id, "Игра окончена.\nВаш счет: " + user.curQuestionIndex );
+        user.curQuestionIndex = 0;
         user.scene = sceneFactory.createFallbackScene();
         botApi.sendAnswer(user.id, "Чтобы начать новую игру, введите /start");
     }
 
-    private void executeRightAnswerCommand(User user, Message message) {
-        user.curQuestion++;
-        if (user.curQuestion == 15) {
+    private void executeRightAnswerCommand(User user, Message message) throws IOException {
+        user.curQuestionIndex++;
+        if (user.curQuestionIndex == 15) {
             botApi.sendAnswer(user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко ");
             executeGameExitCommand(user);
             return;
@@ -61,12 +72,13 @@ public class GameScene implements IScene {
         executeGameExitCommand(user);
     }
 
-    private String buildQuestionWithAnswers(User user) {
-        String result = "";
-        result += user.game.questions.get(user.curQuestion).getQuestion() + '\n';
+    private String buildQuestionWithAnswers(User user) throws IOException {
+        Question q=new BuildJSONObject().toQuestion(user.curQuestionIndex );
+        user.curQuestion=q;
+        String result = q.getQuestion() + '\n';
         for (int i = 0; i < 4; i++) {
             result += (char) ('A' + i) + ": "
-                    + user.game.questions.get(user.curQuestion).getAnswers().get(i).answer + '\n';
+                    + q.getAnswers().get( i ).answer + '\n';
         }
         return result;
     }
