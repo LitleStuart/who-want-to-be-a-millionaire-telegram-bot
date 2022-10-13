@@ -1,5 +1,5 @@
 public class StartCommand {
-    public String doCommand(User user) {
+    public String execute(User user) {
         String responceMessage;
         user.startGame();
         responceMessage = user.game.questions.get(user.curQuestion).getQuestion() + '\n';
