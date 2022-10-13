@@ -1,5 +1,5 @@
 public class HelpCommand {
-    public String doCommand() {
+    public String execute() {
         return "Millionaire bot\n"
                 + "Список команд\n"
                 + "/help | для получения информации\n"

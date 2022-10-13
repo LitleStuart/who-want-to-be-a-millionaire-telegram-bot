@@ -6,7 +6,7 @@ public class SceneFactory {
     }
 
     public IScene createFallbackScene() {
-        return new FallbackScene(botApi, this);
+        return new MainMenuScene(botApi, this);
     };
 
     public IScene createGameScene() {
