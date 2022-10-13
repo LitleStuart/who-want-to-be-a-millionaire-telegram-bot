@@ -1,6 +1,10 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -17,7 +21,6 @@ public class Question {
 
     private final String question;
     private final ArrayList<Answer> answers;
-    private boolean hintUsed = false;
 
     public Question(String question, JSONArray answers) {
         this.question = question;
@@ -31,19 +34,22 @@ public class Question {
         }
     }
 
-    public String getQuestion() {
+    /**
+     * Returns question by index.
+     * @return Questions (ArrayList)
+     * @throws IOException
+     */
+    public ArrayList<Question> getQuestion(int index) throws IOException {
+        String url = "https://ru.wwbm.com/game/get-question/";
+
+        URL questionUrl = new URL(url + index);
+        JSONObject json = BuildJSONObjest.getResponse(questionUrl);
+        Question question = new Question(json.getString("question"), json.getJSONArray("answers"));
         return question;
     }
 
     public ArrayList<Answer> getAnswers() {
+
         return answers;
-    }
-
-    public boolean hintIsUsed() {
-        return hintUsed;
-    }
-
-    public void useHint() {
-        hintUsed = true;
     }
 }
