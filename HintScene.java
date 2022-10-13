@@ -9,6 +9,12 @@ public class HintScene implements IScene {
 
     @Override
     public void handleMessage(User user, Message message) {
+        switch (message.text) {
+            default:
+                botApi.sendAnswer(user.id, "Раздел в разработке. Играйте пока без подсказок :)");
+                user.scene = sceneFactory.createGameScene();
+                break;
+        }
     }
 
 }
