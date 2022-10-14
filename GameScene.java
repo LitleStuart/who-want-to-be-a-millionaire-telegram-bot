@@ -9,32 +9,34 @@ public class GameScene implements IScene {
         this.sceneFactory = sceneFactory;
     }
 
+    private boolean isAnswer(String message) {
+        return message.contentEquals("A") || message.contentEquals("B") ||
+                message.contentEquals("C") || message.contentEquals("D");
+    }
+
     @Override
     public void handleMessage(User user, Message message) throws IOException {
-        if (message.text.contentEquals("A") || message.text.contentEquals("B")
-                || message.text.contentEquals("C") || message.text.contentEquals("D")) {
-            if (new AnswerChecker().isAnswerCorrect(user, message.text)) {
-                message.text = "Right";
-            } else {
-                message.text = "Wrong";
-            }
+        if (message.text.contentEquals("/hint")) {
+            executeHintCommand(user);
+            return;
         }
-        switch (message.text) {
-            case "/hint":
-                executeHintCommand(user);
-                return;
-            case "/exit":
-                executeGameExitCommand(user);
-                return;
-            case "Right":
-                executeRightAnswerCommand(user, message);
-                return;
-            case "Wrong":
-                executeWrongAnswerCommand(user, message);
-                return;
-            default:
-                sceneFactory.createFallbackScene().handleMessage(user, message);
-                return;
+        if (message.text.contentEquals("/exit")) {
+            executeGameExitCommand(user);
+            return;
+        }
+        if (isAnswer(message.text)) {
+            handleAnswerCommand(user, message);
+            return;
+        }
+        sceneFactory.createMainMenuScene().handleMessage(user, message);
+        return;
+    }
+
+    private void handleAnswerCommand(User user, Message message) throws IOException {
+        if (message.text.contentEquals(user.currentQuestion.getRightAnswer())) {
+            executeRightAnswerCommand(user, message);
+        } else {
+            executeWrongAnswerCommand(user, message);
         }
     }
 
@@ -42,43 +44,34 @@ public class GameScene implements IScene {
         if (user.hints == 0) {
             botApi.sendAnswer(user.id, "У вас не осталось подсказок");
         } else {
-            botApi.sendAnswer(user.id, "Выберите подсказку:");
+            botApi.sendAnswer(user.id, "Выберите подсказку:\n\n1: 50/50");
             user.scene = sceneFactory.createHintScene();
         }
     }
 
     private void executeGameExitCommand(User user) {
-        botApi.sendAnswer(user.id, "Игра окончена.\nВаш счет: " + user.curQuestionIndex);
-        user.curQuestionIndex = 0;
-        user.scene = sceneFactory.createFallbackScene();
-        botApi.sendAnswer(user.id, "Чтобы начать новую игру, введите /start");
+        botApi.sendAnswer(user.id, "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1)
+                + "\n\nЧтобы начать новую игру, введите /start");
+        if (user.currentQuestionIndex - 1 > user.highScore) {
+            user.highScore = user.currentQuestionIndex - 1;
+        }
+        user.currentQuestionIndex = 0;
+        user.scene = sceneFactory.createMainMenuScene();
+
     }
 
     private void executeRightAnswerCommand(User user, Message message) throws IOException {
-        user.curQuestionIndex++;
-        if (user.curQuestionIndex == 15) {
+        user.currentQuestionIndex++;
+        if (user.currentQuestionIndex == 15) {
             botApi.sendAnswer(user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко ");
             executeGameExitCommand(user);
             return;
         }
-        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:");
-        String textQuestionWithAnswers = buildQuestionWithAnswers(user);
-        botApi.sendAnswer(user.id, textQuestionWithAnswers);
+        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + user.nextQuestion());
     }
 
     private void executeWrongAnswerCommand(User user, Message message) {
         botApi.sendAnswer(user.id, "Жаль, но это не так");
         executeGameExitCommand(user);
-    }
-
-    private String buildQuestionWithAnswers(User user) throws IOException {
-        Question q = new BuildJSONObject().toQuestion(user.curQuestionIndex);
-        user.curQuestion = q;
-        String result = q.getQuestion() + '\n';
-        for (int i = 0; i < 4; i++) {
-            result += (char) ('A' + i) + ": "
-                    + q.getAnswers().get(i).answer + '\n';
-        }
-        return result;
     }
 }

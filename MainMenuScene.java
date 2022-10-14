@@ -33,33 +33,25 @@ public class MainMenuScene implements IScene {
 
     private void executeHelpCommand(User user) {
         String responseMessage = "/start – Новая игра\n" +
-                "/info – Ваша статистика\n" +
-                "/hint – Использовать подсказку\n" +
+                "/info – Статистика\n" +
+                // "/hint – Использовать подсказку\n" +
                 "/exit – Выход из игры\n" +
-                "/help – Показать это сообщение";
+                "/help – Показать справку";
         botApi.sendAnswer(user.id, responseMessage);
     }
 
     private void executeStartGameCommand(User user) throws IOException {
-
-        String responseMessage;
-        user.startGame();
-        Question q = new BuildJSONObject().toQuestion(user.curQuestionIndex);
-        user.curQuestion = q;
-        responseMessage = q.getQuestion() + '\n';
-        for (int i = 0; i < 4; i++) {
-            responseMessage += (char) ('A' + i) + ": "
-                    + q.getAnswers().get(i).answer + '\n';
-        }
-        botApi.sendAnswer(user.id, responseMessage);
+        user.currentQuestionIndex = 1;
+        user.hints = 1;
+        botApi.sendAnswer(user.id, user.nextQuestion());
         user.scene = sceneFactory.createGameScene();
     }
 
     private void executeInfoCommand(User user) {
-        String responseMessage = "Ваша статистика:\n"
+        String responseMessage = "Ваша статистика:\n\n"
                 + "Имя – " + user.name + '\n'
                 + "Рекорд – " + user.highScore + "\n"
-                + "Текущий вопрос – " + user.curQuestionIndex;
+                + "Текущий вопрос – " + user.currentQuestionIndex;
         botApi.sendAnswer(user.id, responseMessage);
     }
 }

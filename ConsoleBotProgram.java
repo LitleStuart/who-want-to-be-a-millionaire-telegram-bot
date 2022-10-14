@@ -8,7 +8,7 @@ public class ConsoleBotProgram {
         });
         Scanner in = new Scanner(System.in);
         while (true) {
-            bot.handleMessage(new Update(0, new Message(in.nextLine())));
+            bot.handleMessage(new Update(0, "test_user", new Message(in.nextLine())));
         }
     }
 }

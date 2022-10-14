@@ -12,14 +12,14 @@ public class Bot {
     private Map<Long, User> users = new HashMap<Long, User>();
 
     public void handleMessage(Update update) throws IOException {
-        User user = getUser(update.chatId);
+        User user = getUser(update);
         user.scene.handleMessage(user, update.message);
     }
 
-    private User getUser(long chatId) {
-        if (users.isEmpty() || !users.containsKey(chatId)) {
-            users.put(chatId, new User(chatId, sceneFactory.createFallbackScene()));
+    private User getUser(Update update) {
+        if (users.isEmpty() || !users.containsKey(update.chatId)) {
+            users.put(update.chatId, new User(update.chatId, update.username, sceneFactory.createMainMenuScene()));
         }
-        return users.get(chatId);
+        return users.get(update.chatId);
     }
 }

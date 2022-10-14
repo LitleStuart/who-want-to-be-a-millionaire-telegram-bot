@@ -5,7 +5,7 @@ public class SceneFactory {
         this.botApi = botApi;
     }
 
-    public IScene createFallbackScene() {
+    public IScene createMainMenuScene() {
         return new MainMenuScene(botApi, this);
     };
 
