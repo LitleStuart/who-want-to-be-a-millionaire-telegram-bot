@@ -1,5 +1,4 @@
 public class Question {
-
     private String textQuestion;
     private String[] answers = new String[4];
     private int correctAnswer;
