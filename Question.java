@@ -1,40 +1,23 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
 public class Question {
-    class Answer {
-        public String answer;
-        public boolean isCorrect;
+    private String textQuestion;
+    private String[] answers = new String[4];
+    private int correctAnswer;
 
-        public Answer(String answer, boolean isCorrect) {
-            this.answer = answer;
-            this.isCorrect = isCorrect;
-        }
+    Question(String textQuestion, String[] answers, int correctAnswer) {
+        this.textQuestion = textQuestion;
+        this.answers = answers;
+        this.correctAnswer = correctAnswer;
     }
 
-    private final String question;
-    private final ArrayList<Answer> answers;
-
-    public Question(String question, JSONArray answers) {
-        this.question = question;
-        this.answers = new ArrayList<>();
-
-        for (int index = 0; index < 4; index++) {
-            JSONObject answerJSON = answers.getJSONObject(index);
-            Answer answer = new Answer(answerJSON.getString("answer"),
-                    Objects.equals(answerJSON.getInt("key"), 1));
-            this.answers.add(answer);
-        }
+    public String getRightAnswer() {
+        return "" + (char) ('A' + correctAnswer);
     }
 
-    public String getQuestion() {
-        return question;
+    public String getTextQuestion() {
+        return textQuestion;
     }
 
-    public ArrayList<Answer> getAnswers() {
+    public String[] getAnswers() {
         return answers;
     }
 }
