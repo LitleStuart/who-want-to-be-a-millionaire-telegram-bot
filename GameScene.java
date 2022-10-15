@@ -67,7 +67,7 @@ public class GameScene implements IScene {
             executeGameExitCommand(user);
             return;
         }
-        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + user.nextQuestion());
+        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + new QuestionBuilder().nextQuestionForUser(user));
     }
 
     private void executeWrongAnswerCommand(User user, Message message) {

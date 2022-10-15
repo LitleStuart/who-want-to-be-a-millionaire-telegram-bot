@@ -43,7 +43,7 @@ public class MainMenuScene implements IScene {
     private void executeStartGameCommand(User user) throws IOException {
         user.currentQuestionIndex = 1;
         user.hints = 1;
-        botApi.sendAnswer(user.id, user.nextQuestion());
+        botApi.sendAnswer(user.id, new QuestionBuilder().nextQuestionForUser(user));
         user.scene = sceneFactory.createGameScene();
     }
 

@@ -8,7 +8,9 @@ import java.net.URL;
 
 public class QuestionBuilder {
 
-    private JSONObject getJsonFromUrl(URL url) throws IOException {
+    private JSONObject getJsonQuestionBody(int level) throws IOException {
+        String urlString = "https://ru.wwbm.com/game/get-question/";
+        URL url = new URL(urlString + level);
         StringBuilder result = new StringBuilder();
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -42,8 +44,17 @@ public class QuestionBuilder {
     }
 
     public Question getQuestion(int level) throws MalformedURLException, IOException {
-        String url = "https://ru.wwbm.com/game/get-question/";
-        return jsonToQuestion(getJsonFromUrl(new URL(url + level)));
+        return jsonToQuestion(getJsonQuestionBody(level));
     }
 
+    public String nextQuestionForUser(User user) throws MalformedURLException, IOException {
+        Question question = getQuestion(user.currentQuestionIndex);
+        user.currentQuestion = question;
+        String result = question.getTextQuestion() + '\n';
+        for (int i = 0; i < 4; i++) {
+            result += (char) ('A' + i) + ": "
+                    + question.getAnswers()[i] + '\n';
+        }
+        return result;
+    }
 }
