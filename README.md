@@ -1,4 +1,4 @@
-# chat-bot-java
+# Who want to be a millionaire – telegram-bot
 
 ```mermaid
 classDiagram
