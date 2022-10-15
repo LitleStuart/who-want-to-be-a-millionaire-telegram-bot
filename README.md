@@ -44,3 +44,6 @@ Scene <-- User
 SceneFactory <-- Bot
 User <-- Bot
 ```
+
+## Usage
+Type ```/help``` to see help message
