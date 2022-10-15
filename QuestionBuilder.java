@@ -1,4 +1,5 @@
-import org.json.JSONObject;
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +9,7 @@ import java.net.URL;
 
 public class QuestionBuilder {
 
-    private JSONObject getJsonQuestionBody(int level) throws IOException {
+    private String getJsonQuestionBody(int level) throws IOException {
         String urlString = "https://ru.wwbm.com/game/get-question/";
         URL url = new URL(urlString + level);
         StringBuilder result = new StringBuilder();
@@ -22,25 +23,14 @@ public class QuestionBuilder {
                 result.append(line);
             }
         }
-        return new JSONObject(result.toString());
+        return result.toString();
     }
 
-    private Question jsonToQuestion(JSONObject json) throws IOException {
-        String[] answers = new String[4];
-        int correctAnswer = 0;
+    private Question jsonToQuestion(String json) throws IOException {
+        Gson gson = new Gson();
+        QuestionJson questionJson = gson.fromJson(json, QuestionJson.class);
 
-        for (int i = 0; i < 4; i++) {
-            JSONObject jsonAnswer = json.getJSONArray("answers").getJSONObject(i);
-            String textAnswer = jsonAnswer.getString("answer");
-            int key = jsonAnswer.getInt("key");
-
-            answers[i] = textAnswer;
-            if (key == 1) {
-                correctAnswer = i;
-            }
-        }
-
-        return new Question(json.getString("question"), answers, correctAnswer);
+        return new Question(questionJson);
     }
 
     public Question getQuestion(int level) throws MalformedURLException, IOException {
