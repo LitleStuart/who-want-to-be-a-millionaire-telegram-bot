@@ -28,9 +28,10 @@ public class QuestionBuilder {
 
     private Question jsonToQuestion(String json) throws IOException {
         Gson gson = new Gson();
-        QuestionJson questionJson = gson.fromJson(json, QuestionJson.class);
+        Question question = gson.fromJson(json, Question.class);
+        question.generateVariantsMap();
 
-        return new Question(questionJson);
+        return question;
     }
 
     public Question getQuestion(int level) throws MalformedURLException, IOException {
@@ -42,8 +43,8 @@ public class QuestionBuilder {
         user.currentQuestion = question;
         String result = question.getTextQuestion() + '\n';
         for (int i = 0; i < 4; i++) {
-            result += (char) ('A' + i) + ": "
-                    + question.getAnswers()[i] + '\n';
+            char letter = (char) ('A' + i);
+            result += letter + ": " + question.variants.get("" + letter).answer + '\n';
         }
         return result;
     }

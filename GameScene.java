@@ -33,7 +33,7 @@ public class GameScene implements IScene {
     }
 
     private void handleAnswerCommand(User user, Message message) throws IOException {
-        if (message.text.contentEquals(user.currentQuestion.getRightAnswer())) {
+        if (user.currentQuestion.isRightAnswer(message.text)) {
             executeRightAnswerCommand(user, message);
         } else {
             executeWrongAnswerCommand(user, message);

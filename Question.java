@@ -1,28 +1,29 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Question {
-    private String textQuestion;
-    private String[] answers = new String[4];
-    private int correctAnswer;
+    public class Answer {
+        public String answer;
+        public int key;
+    }
 
-    Question(QuestionJson questionJson) {
-        this.textQuestion = questionJson.question;
+    public Map<String, Answer> variants = new HashMap<String, Answer>();
 
+    public int id;
+    public String question;
+    public Answer[] answers;
+
+    public void generateVariantsMap() {
         for (int i = 0; i < 4; i++) {
-            this.answers[i] = questionJson.answers[i].answer;
-            if (questionJson.answers[i].key == 1) {
-                this.correctAnswer = i;
-            }
+            variants.put("" + (char) ('A' + i), answers[i]);
         }
     }
 
-    public String getRightAnswer() {
-        return "" + (char) ('A' + correctAnswer);
+    public boolean isRightAnswer(String letter) {
+        return variants.get(letter).key == 1;
     }
 
     public String getTextQuestion() {
-        return textQuestion;
-    }
-
-    public String[] getAnswers() {
-        return answers;
+        return question;
     }
 }
