@@ -3,10 +3,12 @@ import java.io.IOException;
 public class MainMenuScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
+    private QuestionProvider questionProvider;
 
-    MainMenuScene(IBotApi botApi, SceneFactory sceneFactory) {
+    MainMenuScene(IBotApi botApi, SceneFactory sceneFactory, QuestionProvider questionProvider) {
         this.botApi = botApi;
         this.sceneFactory = sceneFactory;
+        this.questionProvider = questionProvider;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class MainMenuScene implements IScene {
     private void executeStartGameCommand(User user) throws IOException {
         user.currentQuestionIndex = 1;
         user.hints = 1;
-        botApi.sendAnswer(user.id, new QuestionBuilder().nextQuestionForUser(user));
+        botApi.sendAnswer(user.id, questionProvider.nextQuestionForUser(user));
         user.scene = sceneFactory.createGameScene();
     }
 

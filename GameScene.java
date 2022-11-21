@@ -3,10 +3,12 @@ import java.io.IOException;
 public class GameScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
+    private QuestionProvider questionProvider;
 
-    GameScene(IBotApi botApi, SceneFactory sceneFactory) {
+    GameScene(IBotApi botApi, SceneFactory sceneFactory, QuestionProvider questionProvider) {
         this.botApi = botApi;
         this.sceneFactory = sceneFactory;
+        this.questionProvider = questionProvider;
     }
 
     private boolean isAnswer(String message) {
@@ -67,7 +69,7 @@ public class GameScene implements IScene {
             executeGameExitCommand(user);
             return;
         }
-        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + new QuestionBuilder().nextQuestionForUser(user));
+        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + questionProvider.nextQuestionForUser(user));
     }
 
     private void executeWrongAnswerCommand(User user, Message message) {
