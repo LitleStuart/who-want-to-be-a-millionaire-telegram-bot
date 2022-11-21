@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Bot {
     Bot(IBotApi botApi) {
-        this.sceneFactory = new SceneFactory(botApi);
+        this.sceneFactory = new SceneFactory(botApi, new QuestionProvider());
     }
 
     private SceneFactory sceneFactory;
