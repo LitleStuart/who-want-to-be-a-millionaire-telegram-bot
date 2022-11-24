@@ -1,3 +1,3 @@
 public interface IBotApi {
-    public void sendAnswer(long chatId, String text);
+    public void sendAnswer(long chatId, String text, Boolean... withChoice);
 }
