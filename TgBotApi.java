@@ -68,12 +68,12 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     @Override
     public String getBotUsername() {
-        return "MillBotTest";
+        return null;
     }
 
     @Override
     public String getBotToken() {
-        return "5974442642:AAFyxQBpcK7T93UkKmp7vTLi81hxApUl0nc";
+        return null;
     }
 
 }
