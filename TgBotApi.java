@@ -19,21 +19,8 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
         sendMessage.setText(text);
         if (specialFlags.length>0)
         {
-            switch (specialFlags[0]){
-                case("withAnswers"): {
-                    KeyBoardCreator keyBoardCreator = new KeyBoardCreator();
-                    sendMessage.setReplyMarkup(keyBoardCreator.createAnswerKeyBoard(text));
-                    break;
-                }
-                case("withHints"): {
-                    KeyBoardCreator keyBoardCreator = new KeyBoardCreator();
-                    sendMessage.setReplyMarkup(keyBoardCreator.createHintsKeyBoard(text));
-                    break;
-                }
-                default:{
-                    break;
-                }
-            }
+            TgButtons buttons = new TgButtons();
+            sendMessage.setReplyMarkup( buttons.createTgKeyBoard(sendMessage, specialFlags[0]) );
         }
 
         try {
