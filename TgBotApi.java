@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,19 +13,29 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void sendAnswer(long chatId, String text, Boolean... withChoice) {
+    public void sendAnswer(long chatId, String text, String... specialFlags) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
-        if (withChoice.length>0&&withChoice[0]) {
-            ArrayList<String> variants = new ArrayList<>();
-            variants.addAll( List.of( text.split( "\n" ) ) );
-            while (variants.size()>4) {
-                variants.remove( 0 );
+        if (specialFlags.length>0)
+        {
+            switch (specialFlags[0]){
+                case("withAnswers"): {
+                    KeyBoardCreator keyBoardCreator = new KeyBoardCreator();
+                    sendMessage.setReplyMarkup(keyBoardCreator.createAnswerKeyBoard(text));
+                    break;
+                }
+                case("withHints"): {
+                    KeyBoardCreator keyBoardCreator = new KeyBoardCreator();
+                    sendMessage.setReplyMarkup(keyBoardCreator.createHintsKeyBoard(text));
+                    break;
+                }
+                default:{
+                    break;
+                }
             }
-            KeyBoardCreator keyBoardCreator = new KeyBoardCreator();
-            sendMessage.setReplyMarkup( keyBoardCreator.createAnswerKeyBoard( variants ) );
         }
+
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -50,11 +58,8 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
             }
 
         }else if (update.hasCallbackQuery()) {
-            System.out.println("callback");
                 String message = update.getCallbackQuery().getData();
                 long chatId = update.getCallbackQuery().getFrom().getId();
-                System.out.println(message);
-                System.out.println(chatId);
                 String username = update.getCallbackQuery().getFrom().getUserName() != null
                         ? update.getCallbackQuery().getFrom().getUserName()
                         : update.getCallbackQuery().getFrom().getFirstName();

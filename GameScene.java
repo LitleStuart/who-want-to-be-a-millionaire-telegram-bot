@@ -46,7 +46,7 @@ public class GameScene implements IScene {
         if (user.hints == 0) {
             botApi.sendAnswer(user.id, "У вас не осталось подсказок");
         } else {
-            botApi.sendAnswer(user.id, "Выберите подсказку:\n\n1: 50/50");
+            botApi.sendAnswer(user.id, "Выберите подсказку:\n\n1: 50/50\n2: Call\n3: x2", "withHints");
             user.scene = sceneFactory.createHintScene();
         }
     }
@@ -69,7 +69,7 @@ public class GameScene implements IScene {
             executeGameExitCommand(user);
             return;
         }
-        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + questionProvider.nextQuestionForUser(user), true);
+        botApi.sendAnswer(user.id, "Верно! Следующий вопрос:\n\n" + questionProvider.nextQuestionForUser(user), "withAnswers");
     }
 
     private void executeWrongAnswerCommand(User user, Message message) {

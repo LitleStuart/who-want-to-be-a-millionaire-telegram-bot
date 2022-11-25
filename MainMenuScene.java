@@ -45,7 +45,7 @@ public class MainMenuScene implements IScene {
     private void executeStartGameCommand(User user) throws IOException {
         user.currentQuestionIndex = 1;
         user.hints = 1;
-        botApi.sendAnswer(user.id, questionProvider.nextQuestionForUser(user), true);
+        botApi.sendAnswer(user.id, questionProvider.nextQuestionForUser(user), "withAnswers");
         user.scene = sceneFactory.createGameScene();
     }
 
