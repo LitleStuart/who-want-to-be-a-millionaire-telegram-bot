@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class ConsoleBotProgram {
     public static void main(String[] args) throws IOException {
-        Bot bot = new Bot( (chatId, text, flags) -> {
+        Bot bot = new Bot( (chatId, text, buttons) -> {
             System.out.println(text);
         });
         Scanner in = new Scanner(System.in);

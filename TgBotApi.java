@@ -13,14 +13,14 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void sendAnswer(long chatId, String text, String... specialFlags) {
+    public void sendAnswer(long chatId, String text, Buttons... buttons) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
-        if (specialFlags.length>0)
+        if (buttons.length>0)
         {
-            TgButtons buttons = new TgButtons();
-            sendMessage.setReplyMarkup( buttons.createTgKeyBoard(sendMessage, specialFlags[0]) );
+            TgButtons tgButtons = new TgButtons();
+            sendMessage.setReplyMarkup(tgButtons.createTgKeyBoard( buttons[0] ));
         }
 
         try {
@@ -60,12 +60,12 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return "MillBotTest";
     }
 
     @Override
     public String getBotToken() {
-        return null;
+        return "5974442642:AAFyxQBpcK7T93UkKmp7vTLi81hxApUl0nc";
     }
 
 }

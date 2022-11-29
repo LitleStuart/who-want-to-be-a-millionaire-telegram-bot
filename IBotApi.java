@@ -1,3 +1,3 @@
 public interface IBotApi {
-    public void sendAnswer(long chatId, String text, String... specialFlags);
+    public void sendAnswer(long chatId, String text, Buttons... buttons);
 }

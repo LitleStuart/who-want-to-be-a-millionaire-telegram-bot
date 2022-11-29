@@ -26,4 +26,6 @@ public class Question {
     public String getTextQuestion() {
         return question;
     }
+
+    public String getAnswerText(String letter) {return this.variants.get(letter).answer;}
 }

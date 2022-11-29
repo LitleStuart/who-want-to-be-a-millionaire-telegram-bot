@@ -44,7 +44,8 @@ public class QuestionProvider {
         String result = question.getTextQuestion() + '\n';
         for (int i = 0; i < 4; i++) {
             char letter = (char) ('A' + i);
-            result += letter + ": " + question.variants.get("" + letter).answer + '\n';
+            String answerText = question.getAnswerText(""+letter);
+            result += letter + ": " + answerText + '\n';
         }
         return result;
     }
