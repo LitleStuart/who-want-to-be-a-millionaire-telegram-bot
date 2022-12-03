@@ -44,9 +44,14 @@ public class GameScene implements IScene {
     }
 
     private void executeHintCommand(User user) {
+        if (user.currentQuestion.isHintUsed()){
+            botApi.sendAnswer( user.id, "Не больше 1 подсказки на вопрос");
+            return;
+        }
         if (user.hints.isEmpty()) {
             botApi.sendAnswer(user.id, "У вас не осталось подсказок");
         } else {
+            user.currentQuestion.hintUse();
             String hintText = "Выберите подсказку:\n"+user.getHints();
             Buttons hintButtons = new Buttons();
             hintButtons.createHintButtons( hintText, hintText.split("\n").length-2 );

@@ -11,12 +11,15 @@ public class Question {
 
     private String question;
     private Answer[] answers;
+    private boolean hintIsUsed=false;
 
     public void generateVariantsMap() {
         for (int i = 0; i < 4; i++) {
             variants.put("" + (char) ('A' + i), answers[i]);
         }
     }
+    public boolean isHintUsed() {return hintIsUsed;}
+    public void  hintUse() {hintIsUsed=true;}
 
     public boolean isRightAnswer(String letter) {
         return variants.get(letter).key == 1;
