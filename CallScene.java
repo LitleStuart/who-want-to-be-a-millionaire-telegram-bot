@@ -21,7 +21,8 @@ public class CallScene implements IScene{
         }
         Buttons buttons = new Buttons();
         buttons.createHelpButtons(user.name);
-        botApi.sendAnswer(botMessage.text, "Игрок "+user.name+" просит помощи", buttons);
+        String message = "Игрок "+user.name+" просит помощи";
+        botApi.sendAnswer(botMessage.text, message, buttons);
         user.scene = sceneFactory.createGameScene();
     }
 

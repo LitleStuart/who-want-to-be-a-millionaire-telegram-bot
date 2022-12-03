@@ -18,6 +18,11 @@ public class GameScene implements IScene {
 
     @Override
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
+        if (user.currentQuestion==null){
+            user.scene = sceneFactory.createMainMenuScene();
+            user.scene.handleMessage(user, botMessage );
+            return;
+        }
         if (botMessage.text.contentEquals("/hint")) {
             executeHintCommand(user);
             return;
