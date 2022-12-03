@@ -2,6 +2,9 @@ import java.io.IOException;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
@@ -14,6 +17,8 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     @Override
     public void sendAnswer(long chatId, String text, Buttons... buttons) {
+        System.out.println(chatId);
+        bot.printUsers();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
@@ -24,48 +29,107 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
         }
 
         try {
-            execute(sendMessage);
+            long lastMessageId = execute(sendMessage).getMessageId();
+            if (buttons.length>0)
+            {
+                bot.setLastRespMessageId(lastMessageId, chatId);
+            }
+            long id = bot.getLastRespMessageId(chatId);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendAnswer(String username, String text, Buttons... buttons) {
+        long chatId = bot.getChatId(username);
+        sendAnswer(chatId, text, buttons);
+    }
+
+    @Override
+    public void editMessage(long chatId, BotMessage newMessage, Buttons... buttons) {
+        EditMessageText editMessageText = new EditMessageText();
+        editMessageText.setMessageId((int)newMessage.messageId);
+        editMessageText.setChatId(chatId);
+        editMessageText.setText(newMessage.text);
+        if (buttons.length>0)
+        {
+            TgButtons tgButtons = new TgButtons();
+            editMessageText.setReplyMarkup(tgButtons.createTgKeyBoard(buttons[0]));
+        }
+        try {
+            execute(editMessageText);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void deleteMessage(long chatId, long messageId) {
+        DeleteMessage deleteMessage = new DeleteMessage();
+        deleteMessage.setChatId(chatId);
+        deleteMessage.setMessageId((int)messageId);
+        try {
+            execute(deleteMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
     @Override
+    public void transferQuestion(String sender, String receiver) {
+        long senderId = bot.getChatId(sender);
+        long receiverId = bot.getChatId(receiver);
+        bot.transferQuestion(senderId, receiverId);
+    }
+
+    @Override
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         if (update.hasMessage()) {
-            String message = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-            String username = update.getMessage().getFrom().getUserName() != null
-                    ? update.getMessage().getFrom().getUserName()
-                    : update.getMessage().getFrom().getFirstName();
+            Message message = update.getMessage();
+            String text = message.getText();
+            long chatId = message.getChatId();
+            long messageId = message.getMessageId();
+            String username = message.getFrom().getUserName() != null
+                    ? message.getFrom().getUserName()
+                    : message.getFrom().getFirstName();
             try {
-                bot.handleMessage( new Update( chatId, username, new Message( message ) ) );
+                bot.handleMessage( new Update( chatId, username, new BotMessage( text, messageId  ) ) );
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }else if (update.hasCallbackQuery()) {
-                String message = update.getCallbackQuery().getData();
-                long chatId = update.getCallbackQuery().getFrom().getId();
-                String username = update.getCallbackQuery().getFrom().getUserName() != null
-                        ? update.getCallbackQuery().getFrom().getUserName()
-                        : update.getCallbackQuery().getFrom().getFirstName();
-                try {
-                    bot.handleMessage( new Update( chatId, username, new Message( message ) ) );
-                } catch (IOException e) {
-                    e.printStackTrace();
+                Message message = update.getCallbackQuery().getMessage();
+                String text = update.getCallbackQuery().getData();
+                long chatId = message.getChatId();
+                long messageId = message.getMessageId();
+                String username = message.getFrom().getUserName() != null
+                        ? message.getFrom().getUserName()
+                        : message.getFrom().getFirstName();
+
+                if (message.getMessageId() == bot.getLastRespMessageId(chatId))
+                {
+                    System.out.println(text);
+                    try {
+                        bot.remLastRespMessageId(chatId);
+                        bot.handleMessage( new Update( chatId, username, new BotMessage( text, messageId  ) ) );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
         }
     }
 
     @Override
     public String getBotUsername() {
-        return "MillBotTest";
+        return null;
     }
 
     @Override
     public String getBotToken() {
-        return "5974442642:AAFyxQBpcK7T93UkKmp7vTLi81hxApUl0nc";
+        return null;
     }
 
 }

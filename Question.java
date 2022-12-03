@@ -7,11 +7,10 @@ public class Question {
         public int key;
     }
 
-    public Map<String, Answer> variants = new HashMap<String, Answer>();
+    private Map<String, Answer> variants = new HashMap<String, Answer>();
 
-    public int id;
-    public String question;
-    public Answer[] answers;
+    private String question;
+    private Answer[] answers;
 
     public void generateVariantsMap() {
         for (int i = 0; i < 4; i++) {
@@ -28,4 +27,16 @@ public class Question {
     }
 
     public String getAnswerText(String letter) {return this.variants.get(letter).answer;}
+
+    public void deleteAnswer(String letter) {variants.remove( letter );}
+
+    public int numberOfAnswers() {return variants.size();}
+
+    public String getAllAnswerText() {
+        String text = new String();
+        for (String val:variants.keySet()){
+            text += val + ": " + variants.get(val).answer + '\n';
+        }
+        return text;
+    }
 }

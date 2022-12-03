@@ -1,11 +1,11 @@
 public class Update {
     long chatId;
-    Message message;
+    BotMessage botMessage;
     String username;
 
-    public Update(long chatId, String username, Message message) {
+    public Update(long chatId, String username, BotMessage botMessage) {
         this.chatId = chatId;
-        this.message = message;
+        this.botMessage = botMessage;
         this.username = username;
     }
 }

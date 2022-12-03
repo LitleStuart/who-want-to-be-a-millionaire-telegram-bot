@@ -30,7 +30,7 @@ class User {
     +scene Scene
 }
 class Bot {
-    +handleMessage(userId, message) void
+    +handleMessage(userId, botMessage) void
 }
 
 
@@ -46,4 +46,4 @@ User <-- Bot
 ```
 
 ## Usage
-Type ```/help``` to see help message
+Type ```/help``` to see help botMessage

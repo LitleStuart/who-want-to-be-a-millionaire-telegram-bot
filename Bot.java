@@ -13,8 +13,47 @@ public class Bot {
 
     public void handleMessage(Update update) throws IOException {
         User user = getUser(update);
-        user.scene.handleMessage(user, update.message);
+        user.scene.handleMessage(user, update.botMessage);
+    }
 
+    public long getChatId(String username){
+        for (Long id: users.keySet()){
+            if (users.get(id).name.equals(username)) {return id;}
+        }
+        return -1;
+    }
+
+    public void transferQuestion(long senderId, long receiverId){
+        if (users.get(senderId).currentQuestion==users.get(senderId).storedQuestion) {
+            users.get(receiverId).currentQuestion=users.get(senderId).currentQuestion;
+            System.out.println("transfer done");
+        }
+        else {
+            users.get(receiverId).currentQuestion=null;
+        }
+    }
+
+    public void setLastRespMessageId(long messageId, long userId){
+        users.get(userId).lastResponseMessageId.add(messageId);
+    }
+
+    public long getLastRespMessageId(long userId){
+        System.out.println(users.get( userId ).lastResponseMessageId);
+        if (!users.get( userId ).lastResponseMessageId.isEmpty()){
+            return users.get(userId).lastResponseMessageId.lastElement();
+        }
+        return -1; //delete later (for debug only)
+    }
+    public void remLastRespMessageId(long userId){
+        if (users.get(userId).lastResponseMessageId.size()>0){
+            users.get(userId).lastResponseMessageId.pop();
+        }
+    }
+
+    public void printUsers() {
+        for (User user:users.values()){
+            System.out.println(user.name);
+        }
     }
 
     private User getUser(Update update) {
@@ -23,4 +62,6 @@ public class Bot {
         }
         return users.get(update.chatId);
     }
+
+
 }
