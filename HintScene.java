@@ -66,7 +66,7 @@ public class HintScene implements IScene {
     }
 
     private void handleCall(User user, BotMessage botMessage){
-        botApi.sendAnswer(user.id, "Выберите пользователя");
+        botApi.sendAnswer(user.id, "Введите имя пользователя");
         user.scene = sceneFactory.createCallScene();
     }
 

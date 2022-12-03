@@ -4,7 +4,7 @@ import java.util.Stack;
 public class User {
     long id;
     IScene scene;
-
+    IScene prevScene;
     String name;
     int highScore;
     Question currentQuestion;
@@ -18,6 +18,7 @@ public class User {
     User(long chatId, String username, IScene scene) {
         this.id = chatId;
         this.scene = scene;
+        this.prevScene = null;
         this.name = username;
         this.highScore = 0;
         this.hints = new HashMap<>();

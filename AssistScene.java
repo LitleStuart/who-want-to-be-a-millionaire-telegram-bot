@@ -25,10 +25,7 @@ public class AssistScene implements IScene {
                 botApi.sendAnswer( user.receiver, user.name+" считает что ответ - "+botMessage.text);
             }
             botApi.deleteMessage( user.id, botMessage.messageId);
-            user.scene = sceneFactory.createMainMenuScene();
-        }
-        else {
-            botApi.sendAnswer( user.id, "Ответом должна одна из букв A-D" );
+            user.scene = sceneFactory.createGameScene();
         }
     }
 }

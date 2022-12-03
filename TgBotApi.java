@@ -81,6 +81,14 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
+    public boolean isPresent(String username) {
+        if (bot.getChatId(username)!=-1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();

@@ -44,9 +44,14 @@ public class GameScene implements IScene {
     }
 
     private void executeHintCommand(User user) {
+        if (user.currentQuestion.isHintUsed()){
+            botApi.sendAnswer( user.id, "Не больше 1 подсказки на вопрос");
+            return;
+        }
         if (user.hints.isEmpty()) {
             botApi.sendAnswer(user.id, "У вас не осталось подсказок");
         } else {
+            user.currentQuestion.hintUse();
             String hintText = "Выберите подсказку:\n"+user.getHints();
             Buttons hintButtons = new Buttons();
             hintButtons.createHintButtons( hintText, hintText.split("\n").length-2 );
@@ -85,18 +90,18 @@ public class GameScene implements IScene {
     }
 
     private void executeWrongAnswerCommand(User user, BotMessage botMessage) {
-        botApi.sendAnswer(user.id, "Жаль, но ответ "+botMessage.text+" неправильный");
         if (user.secondChance) {
-            botApi.sendAnswer(user.id, "Попробуйте еще рез");
             user.secondChance=false;
             Question question = user.currentQuestion;
             question.deleteAnswer( botMessage.text );
             String fullQuestionText = question.getTextQuestion()+"\n"+question.getAllAnswerText();
             Buttons answerButtons = new Buttons();
             answerButtons.createAnswerButtons(fullQuestionText , 3 );
-            botApi.sendAnswer( user.id, fullQuestionText, answerButtons);
+            botApi.deleteMessage( user.id, botMessage.messageId );
+            botApi.sendAnswer( user.id, "Попробуйте еще раз\n"+fullQuestionText, answerButtons);
             return;
         }
+        botApi.sendAnswer(user.id, "Жаль, но ответ "+botMessage.text+" неправильный");
         executeGameExitCommand(user);
     }
 }

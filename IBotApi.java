@@ -5,4 +5,5 @@ public interface IBotApi {
     public void deleteMessage(long chatId, long messageId);
     //???
     public void transferQuestion(String sender, String receiver);
+    public boolean isPresent(String username);
 }

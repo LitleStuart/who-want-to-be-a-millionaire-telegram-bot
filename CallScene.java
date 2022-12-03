@@ -14,6 +14,11 @@ public class CallScene implements IScene{
 
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         user.storedQuestion=user.currentQuestion;
+        if (!botApi.isPresent(botMessage.text)){
+            botApi.sendAnswer( user.id, "Игрок недоступен");
+            user.scene = sceneFactory.createGameScene();
+            return;
+        }
         Buttons buttons = new Buttons();
         buttons.createHelpButtons(user.name);
         botApi.sendAnswer(botMessage.text, "Игрок "+user.name+" просит помощи", buttons);
