@@ -74,6 +74,7 @@ public class GameScene implements IScene {
             executeGameExitCommand( user );
             return;
         }
+        if (user.secondChance) {user.secondChance=false;}
         String headerText = "Верно, правильный ответ "+
                 user.currentQuestion.getAnswerText( botMessage.text )+"!\n Следующий вопрос:\n\n";
         String questionText = questionProvider.nextQuestionForUser(user);

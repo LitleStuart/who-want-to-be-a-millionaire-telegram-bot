@@ -107,7 +107,6 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
                 if (message.getMessageId() == bot.getLastRespMessageId(chatId))
                 {
-                    System.out.println(text);
                     try {
                         bot.remLastRespMessageId(chatId);
                         bot.handleMessage( new Update( chatId, username, new BotMessage( text, messageId  ) ) );

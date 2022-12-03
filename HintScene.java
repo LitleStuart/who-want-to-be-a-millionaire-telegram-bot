@@ -11,7 +11,6 @@ public class HintScene implements IScene {
 
     @Override
     public void handleMessage(User user, BotMessage botMessage) {
-        System.out.println(botMessage.text);
         switch (botMessage.text) {
             case ("50/50"):{
                 if (user.hints.get("50/50")==0) {

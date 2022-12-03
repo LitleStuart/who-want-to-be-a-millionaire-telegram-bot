@@ -6,7 +6,6 @@ import java.util.List;
 public class Buttons {
     public List<List <Pair<String,String>>> buttons = null;
     public void createAnswerButtons(String message, int numberOfAnswers) {
-        System.out.println(message);
         ArrayList<String> variants = new ArrayList<>();
         variants.addAll( List.of( message.split( "\n" ) ) );
         while (variants.size()>numberOfAnswers) {
@@ -28,13 +27,11 @@ public class Buttons {
         this.buttons=keyBoard;
     }
     public void createHintButtons(String message, int numberOfHints) {
-        System.out.println(message);
         ArrayList<String> variants = new ArrayList<>();
         variants.addAll( List.of( message.split( "\n" ) ) );
         while (variants.size()>numberOfHints) {
             variants.remove( 0 );
         }
-        System.out.println(variants);
         List <Pair<String,String>> keyBoardRow = new ArrayList<>();
         for (int i = 0; i < variants.size(); i++){
             Pair<String,String> newButton = new Pair<String,String>(variants.get(i), variants.get(i));

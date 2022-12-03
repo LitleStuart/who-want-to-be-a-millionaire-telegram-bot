@@ -37,7 +37,6 @@ public class Bot {
     }
 
     public long getLastRespMessageId(long userId){
-        System.out.println(users.get( userId ).lastResponseMessageId);
         return users.get(userId).lastResponseMessageId.lastElement();
     }
     public void remLastRespMessageId(long userId){
