@@ -39,7 +39,7 @@ public class HintScene implements IScene {
                     break;
                 }
                 user.hints.remove("x2");
-                handleDouble(user);
+                handleDouble(user, botMessage);
                 botApi.deleteMessage(user.id, botMessage.messageId);
                 break;
             }
@@ -51,6 +51,7 @@ public class HintScene implements IScene {
     }
 
     private void handleFifty(User user){
+        botApi.deleteMessage( user.id, user.lastResponseMessageId.lastElement() );
         Question question = user.currentQuestion;
         for (int i=0;i<4;i++){
             String letter = "" + (char)('A'+i);
@@ -62,7 +63,7 @@ public class HintScene implements IScene {
         String questionText = question.getTextQuestion()+'\n'+question.getAllAnswerText();
         Buttons answerButtons = new Buttons();
         answerButtons.createAnswerButtons( questionText, 2 );
-        botApi.editMessage(user.id, new BotMessage(questionText, user.lastResponseMessageId.lastElement()),answerButtons);
+        botApi.sendAnswer(user.id, questionText,answerButtons);
     }
 
     private void handleCall(User user, BotMessage botMessage){
@@ -70,8 +71,14 @@ public class HintScene implements IScene {
         user.scene = sceneFactory.createCallScene();
     }
 
-    private void handleDouble(User user){
+    private void handleDouble(User user, BotMessage botMessage){
         user.secondChance=true;
+        botApi.deleteMessage( user.id, user.lastResponseMessageId.lastElement() );
+        Question question = user.currentQuestion;
+        String questionText = question.getTextQuestion()+'\n'+question.getAllAnswerText();
+        Buttons answerButtons = new Buttons();
+        answerButtons.createAnswerButtons( questionText, 4 );
+        botApi.sendAnswer( user.id, "У вас 2 попытки\n"+questionText, answerButtons );
         user.scene = sceneFactory.createGameScene();
     }
 }
