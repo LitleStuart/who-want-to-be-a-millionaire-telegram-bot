@@ -26,7 +26,6 @@ public class Bot {
     public void transferQuestion(long senderId, long receiverId){
         if (users.get(senderId).currentQuestion==users.get(senderId).storedQuestion) {
             users.get(receiverId).currentQuestion=users.get(senderId).currentQuestion;
-            System.out.println("transfer done");
         }
         else {
             users.get(receiverId).currentQuestion=null;
@@ -39,10 +38,7 @@ public class Bot {
 
     public long getLastRespMessageId(long userId){
         System.out.println(users.get( userId ).lastResponseMessageId);
-        if (!users.get( userId ).lastResponseMessageId.isEmpty()){
-            return users.get(userId).lastResponseMessageId.lastElement();
-        }
-        return -1; //delete later (for debug only)
+        return users.get(userId).lastResponseMessageId.lastElement();
     }
     public void remLastRespMessageId(long userId){
         if (users.get(userId).lastResponseMessageId.size()>0){

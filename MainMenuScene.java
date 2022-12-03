@@ -16,7 +16,6 @@ public class MainMenuScene implements IScene {
         if (botMessage.text.startsWith("/HelpAccepted")){
             botApi.deleteMessage(user.id, botMessage.messageId );
             user.receiver=botMessage.text.substring(14);
-            System.out.println(user.name+" helping "+user.receiver);
             botApi.transferQuestion(user.receiver,user.name);
             if (user.currentQuestion==null) {
                 botApi.sendAnswer(user.id, "Помощь больше не требуется");
@@ -61,7 +60,6 @@ public class MainMenuScene implements IScene {
 
     private void executeStartGameCommand(User user) throws IOException {
         user.currentQuestionIndex = 1;
-        System.out.println("game started");
         user.createHints();
         String questionText = questionProvider.nextQuestionForUser(user);
         Buttons answerButtons = new Buttons();

@@ -17,8 +17,6 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     @Override
     public void sendAnswer(long chatId, String text, Buttons... buttons) {
-        System.out.println(chatId);
-        bot.printUsers();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
@@ -34,7 +32,6 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
             {
                 bot.setLastRespMessageId(lastMessageId, chatId);
             }
-            long id = bot.getLastRespMessageId(chatId);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

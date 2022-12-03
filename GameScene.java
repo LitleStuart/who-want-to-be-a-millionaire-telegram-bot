@@ -56,7 +56,6 @@ public class GameScene implements IScene {
     }
 
     private void executeGameExitCommand(User user) {
-        System.out.println("exiting");
         botApi.sendAnswer(user.id, "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1)
                 + "\n\nЧтобы начать новую игру, введите /start");
         if (user.currentQuestionIndex - 1 > user.highScore) {
