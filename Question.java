@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Question {
@@ -11,6 +13,8 @@ public class Question {
 
     private String question;
     private Answer[] answers;
+
+    private Map<String, String> answersText = new HashMap();
     private boolean hintIsUsed=false;
 
     public void generateVariantsMap() {
@@ -18,12 +22,23 @@ public class Question {
             variants.put("" + (char) ('A' + i), answers[i]);
         }
     }
-    public boolean isHintUsed() {return hintIsUsed;}
-    public void  hintUse() {hintIsUsed=true;}
+    public void updateAnswerText() {
+        for (int i = 0; i < 4; i++){
+            String ans = variants.get(""+(char)('A'+i)).answer;
+            answersText.put(""+(char)('A'+i), ans);
+        }
+    }
 
     public boolean isRightAnswer(String letter) {
         return variants.get(letter).key == 1;
     }
+
+    public void deleteAnswer(String letter) {
+        variants.remove(letter);
+        answersText.remove(letter);
+    }
+
+    public int numberOfAnswers() {return variants.size();}
 
     public String getTextQuestion() {
         return question;
@@ -31,15 +46,7 @@ public class Question {
 
     public String getAnswerText(String letter) {return this.variants.get(letter).answer;}
 
-    public void deleteAnswer(String letter) {variants.remove( letter );}
-
-    public int numberOfAnswers() {return variants.size();}
-
-    public String getAllAnswerText() {
-        String text = new String();
-        for (String val:variants.keySet()){
-            text += val + ": " + variants.get(val).answer + '\n';
-        }
-        return text;
+    public Map<String, String> getAllAnswers() {
+        return answersText;
     }
 }

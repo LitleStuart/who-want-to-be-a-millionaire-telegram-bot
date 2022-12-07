@@ -39,11 +39,7 @@ public class Bot {
     public long getLastRespMessageId(long userId){
         return users.get(userId).lastResponseMessageId.lastElement();
     }
-    public void remLastRespMessageId(long userId){
-        if (users.get(userId).lastResponseMessageId.size()>0){
-            users.get(userId).lastResponseMessageId.pop();
-        }
-    }
+
 
     public void printUsers() {
         for (User user:users.values()){

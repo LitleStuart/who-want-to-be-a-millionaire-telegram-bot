@@ -32,6 +32,7 @@ public class GameScene implements IScene {
             return;
         }
         if (isAnswer( botMessage.text)) {
+            user.remLastCallBack();
             handleAnswerCommand(user, botMessage );
             return;
         }
@@ -49,24 +50,19 @@ public class GameScene implements IScene {
     }
 
     private void executeHintCommand(User user) {
-        if (user.currentQuestion.isHintUsed()){
-            botApi.sendAnswer( user.id, "Не больше 1 подсказки на вопрос");
-            return;
-        }
         if (user.hints.isEmpty()) {
-            botApi.sendAnswer(user.id, "У вас не осталось подсказок");
+            botApi.sendMessage(user.id, "У вас не осталось подсказок");
         } else {
-            user.currentQuestion.hintUse();
-            String hintText = "Выберите подсказку:\n"+user.getHints();
+            String hintText = "Выберите подсказку:\n";
             Buttons hintButtons = new Buttons();
-            hintButtons.createHintButtons( hintText, hintText.split("\n").length-2 );
-            botApi.sendAnswer(user.id, hintText, hintButtons);
+            hintButtons.createHintButtons(user.hints);
+            botApi.sendMessage(user.id, hintText, hintButtons);
             user.scene = sceneFactory.createHintScene();
         }
     }
 
     private void executeGameExitCommand(User user) {
-        botApi.sendAnswer(user.id, "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1)
+        botApi.sendMessage(user.id, "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1)
                 + "\n\nЧтобы начать новую игру, введите /start");
         if (user.currentQuestionIndex - 1 > user.highScore) {
             user.highScore = user.currentQuestionIndex - 1;
@@ -80,18 +76,19 @@ public class GameScene implements IScene {
     private void executeRightAnswerCommand(User user, BotMessage botMessage) throws IOException {
         user.currentQuestionIndex++;
         if (user.currentQuestionIndex == 15) {
-            botApi.sendAnswer( user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко " );
+            botApi.sendMessage( user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко " );
             executeGameExitCommand( user );
             return;
         }
         if (user.secondChance) {user.secondChance=false;}
         String headerText = "Верно, правильный ответ "+
                 user.currentQuestion.getAnswerText( botMessage.text )+"!\n Следующий вопрос:\n\n";
-        String questionText = questionProvider.nextQuestionForUser(user);
+        questionProvider.nextQuestionForUser(user);
+        String questionText = user.currentQuestion.getTextQuestion();
         Buttons answerButtons = new Buttons();
-        answerButtons.createAnswerButtons( questionText, 4 );
+        answerButtons.createAnswerButtons(user.currentQuestion );
 
-        botApi.sendAnswer(user.id,  headerText+questionText, answerButtons);
+        botApi.sendMessage(user.id,  headerText+questionText, answerButtons);
     }
 
     private void executeWrongAnswerCommand(User user, BotMessage botMessage) {
@@ -99,14 +96,14 @@ public class GameScene implements IScene {
             user.secondChance=false;
             Question question = user.currentQuestion;
             question.deleteAnswer( botMessage.text );
-            String fullQuestionText = question.getTextQuestion()+"\n"+question.getAllAnswerText();
+            String fullQuestionText = question.getTextQuestion();
             Buttons answerButtons = new Buttons();
-            answerButtons.createAnswerButtons(fullQuestionText , 3 );
+            answerButtons.createAnswerButtons(question);
             botApi.deleteMessage( user.id, botMessage.messageId );
-            botApi.sendAnswer( user.id, "Попробуйте еще раз\n"+fullQuestionText, answerButtons);
+            botApi.sendMessage( user.id, "Попробуйте еще раз\n"+fullQuestionText, answerButtons);
             return;
         }
-        botApi.sendAnswer(user.id, "Жаль, но ответ "+botMessage.text+" неправильный");
+        botApi.sendMessage(user.id, "Жаль, но ответ "+botMessage.text+" неправильный");
         executeGameExitCommand(user);
     }
 }

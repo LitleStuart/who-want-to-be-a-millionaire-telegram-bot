@@ -1,40 +1,38 @@
 import org.glassfish.grizzly.utils.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Buttons {
     public List<List <Pair<String,String>>> buttons = null;
-    public void createAnswerButtons(String message, int numberOfAnswers) {
-        ArrayList<String> variants = new ArrayList<>();
-        variants.addAll( List.of( message.split( "\n" ) ) );
-        while (variants.size()>numberOfAnswers) {
-            variants.remove( 0 );
-        }
+    public void createAnswerButtons(Question question) {
+        Map <String,String> variants = question.getAllAnswers();
         List<List<Pair<String,String>>> keyBoard = new ArrayList<>();
         List<Pair<String,String>> keyBoardRow = new ArrayList<>();
-        for (int i = 0; i < variants.size(); i++){
-            Pair<String,String> newButton = new Pair<String,String>(variants.get(i), variants.get(i).substring(0,1));
+        int i=0;
+        for (String key: variants.keySet()){
+            Pair<String,String> newButton = new Pair<String,String>(variants.get(key), key);
             keyBoardRow.add(newButton);
             if (i>0 && i%2==1){
                 keyBoard.add(keyBoardRow);
                 keyBoardRow = new ArrayList<>();
             }
+            i++;
         }
         if (keyBoardRow.size()>0) {
             keyBoard.add(keyBoardRow);
         }
+        keyBoardRow = new ArrayList<>();
+        keyBoardRow.add(new Pair <>("Использовать подсказку", "/hint"));
+        keyBoard.add(keyBoardRow);
         this.buttons=keyBoard;
     }
-    public void createHintButtons(String message, int numberOfHints) {
-        ArrayList<String> variants = new ArrayList<>();
-        variants.addAll( List.of( message.split( "\n" ) ) );
-        while (variants.size()>numberOfHints) {
-            variants.remove( 0 );
-        }
+    public void createHintButtons(HashMap <String, Integer> hints) {
         List <Pair<String,String>> keyBoardRow = new ArrayList<>();
-        for (int i = 0; i < variants.size(); i++){
-            Pair<String,String> newButton = new Pair<String,String>(variants.get(i), variants.get(i));
+        for (String key:hints.keySet()){
+            Pair<String,String> newButton = new Pair<String,String>(key, key);
             keyBoardRow.add(newButton);
         }
         List<List <Pair<String,String>>> keyBoard = new ArrayList<>();

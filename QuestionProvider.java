@@ -30,7 +30,6 @@ public class QuestionProvider {
         Gson gson = new Gson();
         Question question = gson.fromJson(json, Question.class);
         question.generateVariantsMap();
-
         return question;
     }
 
@@ -38,15 +37,9 @@ public class QuestionProvider {
         return jsonToQuestion(getJsonQuestionBody(level));
     }
 
-    public String nextQuestionForUser(User user) throws MalformedURLException, IOException {
+    public void nextQuestionForUser(User user) throws MalformedURLException, IOException {
         Question question = getQuestion(user.currentQuestionIndex);
+        question.updateAnswerText();
         user.currentQuestion = question;
-        String result = question.getTextQuestion() + '\n';
-        for (int i = 0; i < 4; i++) {
-            char letter = (char) ('A' + i);
-            String answerText = question.getAnswerText(""+letter);
-            result += letter + ": " + answerText + '\n';
-        }
-        return result;
     }
 }

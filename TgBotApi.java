@@ -16,7 +16,7 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void sendAnswer(long chatId, String text, Buttons... buttons) {
+    public void sendMessage(long chatId, String text, Buttons... buttons) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
@@ -37,9 +37,9 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
         }
     }
 
-    public void sendAnswer(String username, String text, Buttons... buttons) {
+    public void sendMessage(String username, String text, Buttons... buttons) {
         long chatId = bot.getChatId(username);
-        sendAnswer(chatId, text, buttons);
+        sendMessage(chatId, text, buttons);
     }
 
     @Override
@@ -74,18 +74,16 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void transferQuestion(String sender, String receiver) {
+    public void sendMessage(String sender, String receiver) {
         long senderId = bot.getChatId(sender);
         long receiverId = bot.getChatId(receiver);
-        bot.transferQuestion(senderId, receiverId);
-    }
-
-    @Override
-    public boolean isPresent(String username) {
-        if (bot.getChatId(username)!=-1){
-            return true;
+        try {
+            bot.transferQuestion(senderId, receiverId);
+        } catch (NullPointerException e){
+            sendMessage(senderId, "Игрок "+receiver+" не найден");
+            e.printStackTrace();
         }
-        return false;
+
     }
 
     @Override
@@ -116,7 +114,6 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
                 if (message.getMessageId() == bot.getLastRespMessageId(chatId))
                 {
                     try {
-                        bot.remLastRespMessageId(chatId);
                         bot.handleMessage( new Update( chatId, username, new BotMessage( text, messageId  ) ) );
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -135,5 +132,4 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     public String getBotToken() {
         return null;
     }
-
 }

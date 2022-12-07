@@ -33,6 +33,12 @@ public class User {
         this.hints.put("x2",1);
     }
 
+    public void remLastCallBack(){
+        if (lastResponseMessageId.size()>0){
+            lastResponseMessageId.pop();
+        }
+    }
+
     public String getHints(){
         String result = new String();
         for (String hint:hints.keySet()) {
