@@ -3,10 +3,10 @@ import java.io.IOException;
 public class CallScene implements IScene{
     private IBotApi botApi;
     private SceneFactory sceneFactory;
-    private QuestionProvider questionProvider;
+    private IQuestionProvider questionProvider;
 
 
-    CallScene(IBotApi botApi, SceneFactory sceneFactory, QuestionProvider questionProvider) {
+    CallScene(IBotApi botApi, SceneFactory sceneFactory, IQuestionProvider questionProvider) {
         this.botApi = botApi;
         this.sceneFactory = sceneFactory;
         this.questionProvider = questionProvider;

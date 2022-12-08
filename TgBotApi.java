@@ -11,8 +11,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     private Bot bot;
 
-    TgBotApi() {
-        bot = new Bot(this);
+    TgBotApi(IQuestionProvider questionProvider) {
+        bot = new Bot(this, questionProvider);
     }
 
     @Override

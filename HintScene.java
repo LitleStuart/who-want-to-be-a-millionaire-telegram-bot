@@ -1,9 +1,9 @@
 public class HintScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
-    private QuestionProvider questionProvider;
+    private IQuestionProvider questionProvider;
 
-    HintScene(IBotApi botApi, SceneFactory sceneFactory, QuestionProvider questionProvider) {
+    HintScene(IBotApi botApi, SceneFactory sceneFactory, IQuestionProvider questionProvider) {
         this.botApi = botApi;
         this.sceneFactory = sceneFactory;
         this.questionProvider = questionProvider;
@@ -64,7 +64,6 @@ public class HintScene implements IScene {
         String questionText = question.getTextQuestion();
         Buttons answerButtons = new Buttons();
         answerButtons.createAnswerButtons(question);
-        System.out.println("cut");
         botApi.sendMessage(user.id, questionText, answerButtons);
     }
 

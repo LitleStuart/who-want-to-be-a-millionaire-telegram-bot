@@ -3,9 +3,9 @@ import java.io.IOException;
 public class GameScene implements IScene {
     private IBotApi botApi;
     private SceneFactory sceneFactory;
-    private QuestionProvider questionProvider;
+    private IQuestionProvider questionProvider;
 
-    GameScene(IBotApi botApi, SceneFactory sceneFactory, QuestionProvider questionProvider) {
+    GameScene(IBotApi botApi, SceneFactory sceneFactory, IQuestionProvider questionProvider) {
         this.botApi = botApi;
         this.sceneFactory = sceneFactory;
         this.questionProvider = questionProvider;

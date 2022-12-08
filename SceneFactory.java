@@ -1,10 +1,8 @@
-import org.checkerframework.checker.units.qual.A;
-
 public class SceneFactory {
     IBotApi botApi;
-    QuestionProvider questionProvider;
+    IQuestionProvider questionProvider;
 
-    public SceneFactory(IBotApi botApi, QuestionProvider questionProvider) {
+    public SceneFactory(IBotApi botApi, IQuestionProvider questionProvider) {
         this.botApi = botApi;
         this.questionProvider = questionProvider;
     }

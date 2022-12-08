@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bot {
-    Bot(IBotApi botApi) {
-        this.sceneFactory = new SceneFactory(botApi, new QuestionProvider());
+    Bot(IBotApi botApi, IQuestionProvider questionProvider) {
+        this.sceneFactory = new SceneFactory(botApi,  questionProvider);
     }
 
     private SceneFactory sceneFactory;

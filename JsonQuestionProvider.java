@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class QuestionProvider {
+public class JsonQuestionProvider  implements  IQuestionProvider{
 
     private String getJsonQuestionBody(int level) throws IOException {
         String urlString = "https://ru.wwbm.com/game/get-question/";
@@ -33,11 +33,12 @@ public class QuestionProvider {
         return question;
     }
 
-    public Question getQuestion(int level) throws MalformedURLException, IOException {
+    public Question getQuestion(int level) throws IOException {
         return jsonToQuestion(getJsonQuestionBody(level));
     }
 
-    public void nextQuestionForUser(User user) throws MalformedURLException, IOException {
+    @Override
+    public void nextQuestionForUser(User user) throws IOException {
         Question question = getQuestion(user.currentQuestionIndex);
         question.updateAnswerText();
         user.currentQuestion = question;
