@@ -1,7 +1,7 @@
 public interface IBotApi {
-    void sendMessage(long chatId, String text, Buttons... buttons);
-    void sendMessage(String username, String text, Buttons... buttons);
-    void sendMessage(String sender, String receiver);
+    void sendBotToUserMessage(long chatId, String text, Buttons... buttons);
+    void sendBotToUserMessage(String username, String text, Buttons... buttons);
+    void sendUserToUserMessage(String senderUsername, String receiverUsername);
     void editMessage(long chatId, BotMessage newMessage, Buttons... buttons);
     void deleteMessage(long chatId, long messageId);
 }

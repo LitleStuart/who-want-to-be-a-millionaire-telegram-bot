@@ -15,7 +15,7 @@ public class HintScene implements IScene {
         switch (botMessage.text) {
             case ("50/50"):{
                 if (user.hints.get("50/50")==0) {
-                    botApi.sendMessage(user.id, "Подсказки 50/50 нет");
+                    botApi.sendBotToUserMessage(user.id, "Подсказки 50/50 нет");
                     break;
                 }
                 user.hints.remove("50/50");
@@ -26,7 +26,7 @@ public class HintScene implements IScene {
             }
             case ("Call"):{
                 if (user.hints.get("Call")==0) {
-                    botApi.sendMessage(user.id, "Подсказки Call нет");
+                    botApi.sendBotToUserMessage(user.id, "Подсказки Call нет");
                     break;
                 }
                 user.hints.remove("Call");
@@ -36,7 +36,7 @@ public class HintScene implements IScene {
             }
             case ("x2"):{
                 if (user.hints.get("x2")==0){
-                    botApi.sendMessage( user.id, "Подсказки x2 нет");
+                    botApi.sendBotToUserMessage( user.id, "Подсказки x2 нет");
                     break;
                 }
                 user.hints.remove("x2");
@@ -45,7 +45,7 @@ public class HintScene implements IScene {
                 break;
             }
             default:
-                botApi.sendMessage(user.id, "Раздел в разработке. Играйте пока без подсказок :)");
+                botApi.sendBotToUserMessage(user.id, "Раздел в разработке. Играйте пока без подсказок :)");
                 user.scene = sceneFactory.createGameScene();
                 break;
         }
@@ -63,12 +63,14 @@ public class HintScene implements IScene {
         }
         String questionText = question.getTextQuestion();
         Buttons answerButtons = new Buttons();
-        answerButtons.createAnswerButtons(question);
-        botApi.sendMessage(user.id, questionText, answerButtons);
+        answerButtons.createAnswerButtons(question.getAllAnswers());
+        answerButtons.addHintButton();
+        botApi.sendBotToUserMessage(user.id, questionText, answerButtons);
     }
 
     private void handleCall(User user, BotMessage botMessage){
-        botApi.sendMessage(user.id, "Введите имя пользователя");
+        botApi.sendBotToUserMessage(user.id, "Введите имя пользователя");
+        user.storedQuestion=user.currentQuestion;
         user.scene = sceneFactory.createCallScene();
     }
 
@@ -78,8 +80,9 @@ public class HintScene implements IScene {
         Question question = user.currentQuestion;
         String questionText = question.getTextQuestion();
         Buttons answerButtons = new Buttons();
-        answerButtons.createAnswerButtons(question);
-        botApi.sendMessage( user.id, "У вас 2 попытки\n"+questionText, answerButtons );
+        answerButtons.createAnswerButtons(question.getAllAnswers());
+        answerButtons.addHintButton();
+        botApi.sendBotToUserMessage( user.id, "У вас 2 попытки\n"+questionText, answerButtons );
         user.scene = sceneFactory.createGameScene();
     }
 }

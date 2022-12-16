@@ -14,16 +14,15 @@ public class CallScene implements IScene{
 
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         if (user.name.equals(botMessage.text)){
-            botApi.sendMessage( user.id, "Спросить себя можно было и без подсказки");
+            botApi.sendBotToUserMessage( user.id, "Спросить себя можно было и без подсказки");
             user.scene = sceneFactory.createGameScene();
             return;
         }
-        user.storedQuestion=user.currentQuestion;
-        botApi.sendMessage( user.name, botMessage.text );
+        botApi.sendUserToUserMessage( user.name, botMessage.text );
         Buttons buttons = new Buttons();
-        buttons.createHelpButtons(user.name);
+        buttons.createHelpButton(user.name);
         String message = "Игрок "+user.name+" просит помощи";
-        botApi.sendMessage(botMessage.text, message, buttons);
+        botApi.sendBotToUserMessage(botMessage.text, message, buttons);
         user.scene = sceneFactory.createGameScene();
     }
 

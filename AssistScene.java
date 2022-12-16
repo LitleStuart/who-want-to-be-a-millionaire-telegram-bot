@@ -19,11 +19,11 @@ public class AssistScene implements IScene {
     @Override
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         if (isAnswer( botMessage.text )){
-            botApi.sendMessage( user.receiver, user.name );
             if (user.currentQuestion!=null)
             {
-                botApi.sendMessage( user.receiver, user.name+" считает что ответ - "+botMessage.text);
+                botApi.sendBotToUserMessage( user.receiver, user.name+" считает что ответ - "+botMessage.text);
             }
+            user.remLastCallBack();
             botApi.deleteMessage( user.id, botMessage.messageId);
             user.scene = sceneFactory.createGameScene();
         }

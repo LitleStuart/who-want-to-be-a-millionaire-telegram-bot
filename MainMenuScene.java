@@ -15,6 +15,7 @@ public class MainMenuScene implements IScene {
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         if (botMessage.text.startsWith("/HelpAccepted")){
             executeAssistCommand(user, botMessage);
+            return;
         }
         switch (botMessage.text) {
             case ("/help"): {
@@ -31,24 +32,24 @@ public class MainMenuScene implements IScene {
             }
 
             default: {
-                botApi.sendMessage(user.id, "Неправильный формат ввода, используйте /help для получения информации");
+                botApi.sendBotToUserMessage(user.id, "Неправильный формат ввода, используйте /help для получения информации");
             }
         }
     }
 
     private void executeAssistCommand(User user, BotMessage botMessage){
+        user.remLastCallBack();
         botApi.deleteMessage(user.id, botMessage.messageId );
         user.receiver=botMessage.text.substring(14);
-        botApi.sendMessage(user.receiver,user.name);
         if (user.currentQuestion==null) {
-            botApi.sendMessage(user.id, "Помощь больше не требуется");
+            botApi.sendBotToUserMessage(user.id, "Помощь больше не требуется");
             return;
         }
-        botApi.sendMessage( user.receiver, user.name+" поможет вам" );
+        botApi.sendBotToUserMessage( user.receiver, user.name+" поможет вам" );
         Buttons answerButtons = new Buttons();
         String fullQuestionText = user.currentQuestion.getTextQuestion();
-        answerButtons.createAnswerButtons(user.currentQuestion);
-        botApi.sendMessage(user.id, fullQuestionText, answerButtons);
+        answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
+        botApi.sendBotToUserMessage(user.id, fullQuestionText, answerButtons);
         user.scene = sceneFactory.createAssistScene();
         return;
     }
@@ -58,7 +59,7 @@ public class MainMenuScene implements IScene {
                 "/info – Статистика\n" +
                 "/exit – Выход из игры\n" +
                 "/help – Показать справку";
-        botApi.sendMessage(user.id, responseMessage);
+        botApi.sendBotToUserMessage(user.id, responseMessage);
     }
 
     private void executeStartGameCommand(User user) throws IOException {
@@ -67,8 +68,9 @@ public class MainMenuScene implements IScene {
         questionProvider.nextQuestionForUser(user);
         String questionText = user.currentQuestion.getTextQuestion();
         Buttons answerButtons = new Buttons();
-        answerButtons.createAnswerButtons(user.currentQuestion );
-        botApi.sendMessage(user.id, questionText, answerButtons );
+        answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
+        answerButtons.addHintButton();
+        botApi.sendBotToUserMessage(user.id, questionText, answerButtons );
         user.scene = sceneFactory.createGameScene();
     }
 
@@ -77,6 +79,6 @@ public class MainMenuScene implements IScene {
                 + "Имя – " + user.name + '\n'
                 + "Рекорд – " + user.highScore + "\n"
                 + "Текущий вопрос – " + user.currentQuestionIndex;
-        botApi.sendMessage(user.id, responseMessage);
+        botApi.sendBotToUserMessage(user.id, responseMessage);
     }
 }
