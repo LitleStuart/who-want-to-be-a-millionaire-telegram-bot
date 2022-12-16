@@ -6,7 +6,7 @@ public class User {
     long id;
     IScene scene;
     IScene prevScene;
-    String name;
+    String username;
     int highScore;
     Question currentQuestion;
     Question storedQuestion;
@@ -20,7 +20,7 @@ public class User {
         this.id = chatId;
         this.scene = scene;
         this.prevScene = null;
-        this.name = username;
+        this.username = username;
         this.highScore = 0;
         this.hints = new HashMap<>();
         this.currentQuestion = null;

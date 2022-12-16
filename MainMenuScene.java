@@ -46,7 +46,7 @@ public class MainMenuScene implements IScene {
             botApi.sendBotToUserMessage(user.id, "Помощь больше не требуется");
             return;
         }
-        botApi.sendBotToUserMessage(user.receiver, user.name + " поможет вам");
+        botApi.sendBotToUserMessage(user.receiver, user.username + " поможет вам");
         Buttons answerButtons = new Buttons();
         String fullQuestionText = user.currentQuestion.getTextQuestion();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
@@ -77,7 +77,7 @@ public class MainMenuScene implements IScene {
 
     private void executeInfoCommand(User user) {
         String responseMessage = "Ваша статистика:\n\n"
-                + "Имя – " + user.name + '\n'
+                + "Имя – " + user.username + '\n'
                 + "Рекорд – " + user.highScore + "\n"
                 + "Текущий вопрос – " + user.currentQuestionIndex;
         botApi.sendBotToUserMessage(user.id, responseMessage);

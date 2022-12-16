@@ -20,7 +20,7 @@ public class AssistScene implements IScene {
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         if (isAnswer(botMessage.text)) {
             if (user.currentQuestion != null) {
-                botApi.sendBotToUserMessage(user.receiver, user.name + " считает что ответ - " + botMessage.text);
+                botApi.sendBotToUserMessage(user.receiver, user.username + " считает что ответ - " + botMessage.text);
             }
             user.remLastCallBack();
             botApi.deleteMessage(user.id, botMessage.messageId);

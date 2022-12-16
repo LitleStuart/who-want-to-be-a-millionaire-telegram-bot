@@ -18,7 +18,7 @@ public class Bot {
 
     public long getChatId(String username) {
         for (Long id : users.keySet()) {
-            if (users.get(id).name.equals(username)) {
+            if (users.get(id).username.equals(username)) {
                 return id;
             }
         }
