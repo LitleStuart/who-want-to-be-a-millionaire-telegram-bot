@@ -15,17 +15,18 @@ public class Question {
     private Answer[] answers;
 
     private Map<String, String> answersText = new HashMap();
-    private boolean hintIsUsed=false;
+    private boolean hintIsUsed = false;
 
     public void generateVariantsMap() {
         for (int i = 0; i < 4; i++) {
             variants.put("" + (char) ('A' + i), answers[i]);
         }
     }
+
     public void updateAnswerText() {
-        for (int i = 0; i < 4; i++){
-            String ans = variants.get(""+(char)('A'+i)).answer;
-            answersText.put(""+(char)('A'+i), ""+(char)('A'+i)+": "+ans);
+        for (int i = 0; i < 4; i++) {
+            String ans = variants.get("" + (char) ('A' + i)).answer;
+            answersText.put("" + (char) ('A' + i), "" + (char) ('A' + i) + ": " + ans);
         }
     }
 
@@ -38,13 +39,17 @@ public class Question {
         answersText.remove(letter);
     }
 
-    public int numberOfAnswers() {return variants.size();}
+    public int numberOfAnswers() {
+        return variants.size();
+    }
 
     public String getTextQuestion() {
         return question;
     }
 
-    public String getAnswerText(String letter) {return this.variants.get(letter).answer;}
+    public String getAnswerText(String letter) {
+        return this.variants.get(letter).answer;
+    }
 
     public List<String> getAllAnswers() {
         return answersText.values().stream().toList();

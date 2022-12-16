@@ -24,29 +24,30 @@ public class User {
         this.highScore = 0;
         this.hints = new HashMap<>();
         this.currentQuestion = null;
-        this.lastResponseMessageId = new Stack <Long>();
-        this.secondChance=false;
+        this.lastResponseMessageId = new Stack<Long>();
+        this.secondChance = false;
     }
 
-    public void createHints(){
-        this.hints.put("50/50",1);
-        this.hints.put("Call",1);
-        this.hints.put("x2",1);
+    public void createHints() {
+        this.hints.put("50/50", 1);
+        this.hints.put("Call", 1);
+        this.hints.put("x2", 1);
     }
 
-    public void remLastCallBack(){
-        if (lastResponseMessageId.size()>0){
+    public void remLastCallBack() {
+        if (lastResponseMessageId.size() > 0) {
             lastResponseMessageId.pop();
         }
     }
 
-    public List <String> getHints(){
+    public List<String> getHints() {
         return hints.keySet().stream().toList();
     }
 
-    /* FOR DEBUG ONLY
-    public void printResp(){
-        System.out.println(lastResponseMessageId);
-    }
-    */
+    /*
+     * FOR DEBUG ONLY
+     * public void printResp(){
+     * System.out.println(lastResponseMessageId);
+     * }
+     */
 }

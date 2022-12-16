@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class JsonQuestionProvider  implements  IQuestionProvider{
+public class JsonQuestionProvider implements IQuestionProvider {
 
     private String getJsonQuestionBody(int level) throws IOException {
         String urlString = "https://ru.wwbm.com/game/get-question/";

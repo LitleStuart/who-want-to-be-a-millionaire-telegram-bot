@@ -18,9 +18,9 @@ public class GameScene implements IScene {
 
     @Override
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
-        if (user.currentQuestion==null){
+        if (user.currentQuestion == null) {
             user.scene = sceneFactory.createMainMenuScene();
-            user.scene.handleMessage(user, botMessage );
+            user.scene.handleMessage(user, botMessage);
             return;
         }
         if (botMessage.text.contentEquals("/hint")) {
@@ -31,9 +31,9 @@ public class GameScene implements IScene {
             executeGameExitCommand(user);
             return;
         }
-        if (isAnswer( botMessage.text)) {
+        if (isAnswer(botMessage.text)) {
             user.remLastCallBack();
-            handleAnswerCommand(user, botMessage );
+            handleAnswerCommand(user, botMessage);
             return;
         }
         sceneFactory.createMainMenuScene().handleMessage(user, botMessage);
@@ -42,7 +42,7 @@ public class GameScene implements IScene {
 
     private void handleAnswerCommand(User user, BotMessage botMessage) throws IOException {
         user.storedQuestion = null;
-        if (user.currentQuestion.isRightAnswer( botMessage.text)) {
+        if (user.currentQuestion.isRightAnswer(botMessage.text)) {
             executeRightAnswerCommand(user, botMessage);
         } else {
             executeWrongAnswerCommand(user, botMessage);
@@ -76,35 +76,37 @@ public class GameScene implements IScene {
     private void executeRightAnswerCommand(User user, BotMessage botMessage) throws IOException {
         user.currentQuestionIndex++;
         if (user.currentQuestionIndex == 15) {
-            botApi.sendBotToUserMessage( user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко " );
-            executeGameExitCommand( user );
+            botApi.sendBotToUserMessage(user.id, "Поздравляю! Вы прошли игру.\nА в награду вы получаете яблочко ");
+            executeGameExitCommand(user);
             return;
         }
-        if (user.secondChance) {user.secondChance=false;}
-        String headerText = "Верно, правильный ответ "+
-                user.currentQuestion.getAnswerText( botMessage.text )+"!\n Следующий вопрос:\n\n";
+        if (user.secondChance) {
+            user.secondChance = false;
+        }
+        String headerText = "Верно, правильный ответ " +
+                user.currentQuestion.getAnswerText(botMessage.text) + "!\n Следующий вопрос:\n\n";
         questionProvider.nextQuestionForUser(user);
         String questionText = user.currentQuestion.getTextQuestion();
         Buttons answerButtons = new Buttons();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         answerButtons.addHintButton();
-        botApi.sendBotToUserMessage(user.id,  headerText+questionText, answerButtons);
+        botApi.sendBotToUserMessage(user.id, headerText + questionText, answerButtons);
     }
 
     private void executeWrongAnswerCommand(User user, BotMessage botMessage) {
         if (user.secondChance) {
-            user.secondChance=false;
+            user.secondChance = false;
             Question question = user.currentQuestion;
-            question.deleteAnswer( botMessage.text );
+            question.deleteAnswer(botMessage.text);
             String fullQuestionText = question.getTextQuestion();
             Buttons answerButtons = new Buttons();
             answerButtons.createAnswerButtons(question.getAllAnswers());
             answerButtons.addHintButton();
-            botApi.deleteMessage( user.id, botMessage.messageId );
-            botApi.sendBotToUserMessage( user.id, "Попробуйте еще раз\n"+fullQuestionText, answerButtons);
+            botApi.deleteMessage(user.id, botMessage.messageId);
+            botApi.sendBotToUserMessage(user.id, "Попробуйте еще раз\n" + fullQuestionText, answerButtons);
             return;
         }
-        botApi.sendBotToUserMessage(user.id, "Жаль, но ответ "+botMessage.text+" неправильный");
+        botApi.sendBotToUserMessage(user.id, "Жаль, но ответ " + botMessage.text + " неправильный");
         executeGameExitCommand(user);
     }
 }

@@ -13,7 +13,7 @@ public class MainMenuScene implements IScene {
 
     @Override
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
-        if (botMessage.text.startsWith("/HelpAccepted")){
+        if (botMessage.text.startsWith("/HelpAccepted")) {
             executeAssistCommand(user, botMessage);
             return;
         }
@@ -32,20 +32,21 @@ public class MainMenuScene implements IScene {
             }
 
             default: {
-                botApi.sendBotToUserMessage(user.id, "Неправильный формат ввода, используйте /help для получения информации");
+                botApi.sendBotToUserMessage(user.id,
+                        "Неправильный формат ввода, используйте /help для получения информации");
             }
         }
     }
 
-    private void executeAssistCommand(User user, BotMessage botMessage){
+    private void executeAssistCommand(User user, BotMessage botMessage) {
         user.remLastCallBack();
-        botApi.deleteMessage(user.id, botMessage.messageId );
-        user.receiver=botMessage.text.substring(14);
-        if (user.currentQuestion==null) {
+        botApi.deleteMessage(user.id, botMessage.messageId);
+        user.receiver = botMessage.text.substring(14);
+        if (user.currentQuestion == null) {
             botApi.sendBotToUserMessage(user.id, "Помощь больше не требуется");
             return;
         }
-        botApi.sendBotToUserMessage( user.receiver, user.name+" поможет вам" );
+        botApi.sendBotToUserMessage(user.receiver, user.name + " поможет вам");
         Buttons answerButtons = new Buttons();
         String fullQuestionText = user.currentQuestion.getTextQuestion();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
@@ -70,7 +71,7 @@ public class MainMenuScene implements IScene {
         Buttons answerButtons = new Buttons();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         answerButtons.addHintButton();
-        botApi.sendBotToUserMessage(user.id, questionText, answerButtons );
+        botApi.sendBotToUserMessage(user.id, questionText, answerButtons);
         user.scene = sceneFactory.createGameScene();
     }
 

@@ -13,19 +13,19 @@ public class HintScene implements IScene {
     public void handleMessage(User user, BotMessage botMessage) {
         user.remLastCallBack();
         switch (botMessage.text) {
-            case ("50/50"):{
-                if (user.hints.get("50/50")==0) {
+            case ("50/50"): {
+                if (user.hints.get("50/50") == 0) {
                     botApi.sendBotToUserMessage(user.id, "Подсказки 50/50 нет");
                     break;
                 }
                 user.hints.remove("50/50");
                 handleFifty(user);
-                botApi.deleteMessage(user.id, botMessage.messageId );
+                botApi.deleteMessage(user.id, botMessage.messageId);
                 user.scene = sceneFactory.createGameScene();
                 break;
             }
-            case ("Call"):{
-                if (user.hints.get("Call")==0) {
+            case ("Call"): {
+                if (user.hints.get("Call") == 0) {
                     botApi.sendBotToUserMessage(user.id, "Подсказки Call нет");
                     break;
                 }
@@ -34,9 +34,9 @@ public class HintScene implements IScene {
                 botApi.deleteMessage(user.id, botMessage.messageId);
                 break;
             }
-            case ("x2"):{
-                if (user.hints.get("x2")==0){
-                    botApi.sendBotToUserMessage( user.id, "Подсказки x2 нет");
+            case ("x2"): {
+                if (user.hints.get("x2") == 0) {
+                    botApi.sendBotToUserMessage(user.id, "Подсказки x2 нет");
                     break;
                 }
                 user.hints.remove("x2");
@@ -51,15 +51,17 @@ public class HintScene implements IScene {
         }
     }
 
-    private void handleFifty(User user){
-        botApi.deleteMessage( user.id, user.lastResponseMessageId.lastElement() );
+    private void handleFifty(User user) {
+        botApi.deleteMessage(user.id, user.lastResponseMessageId.lastElement());
         Question question = user.currentQuestion;
-        for (int i=0;i<4;i++){
-            String letter = "" + (char)('A'+i);
-            if (!question.isRightAnswer( letter )) {
-                question.deleteAnswer( letter );
+        for (int i = 0; i < 4; i++) {
+            String letter = "" + (char) ('A' + i);
+            if (!question.isRightAnswer(letter)) {
+                question.deleteAnswer(letter);
             }
-            if (question.numberOfAnswers()==2) {break;}
+            if (question.numberOfAnswers() == 2) {
+                break;
+            }
         }
         String questionText = question.getTextQuestion();
         Buttons answerButtons = new Buttons();
@@ -68,21 +70,21 @@ public class HintScene implements IScene {
         botApi.sendBotToUserMessage(user.id, questionText, answerButtons);
     }
 
-    private void handleCall(User user, BotMessage botMessage){
+    private void handleCall(User user, BotMessage botMessage) {
         botApi.sendBotToUserMessage(user.id, "Введите имя пользователя");
-        user.storedQuestion=user.currentQuestion;
+        user.storedQuestion = user.currentQuestion;
         user.scene = sceneFactory.createCallScene();
     }
 
-    private void handleDouble(User user, BotMessage botMessage){
-        user.secondChance=true;
-        botApi.deleteMessage( user.id, user.lastResponseMessageId.lastElement() );
+    private void handleDouble(User user, BotMessage botMessage) {
+        user.secondChance = true;
+        botApi.deleteMessage(user.id, user.lastResponseMessageId.lastElement());
         Question question = user.currentQuestion;
         String questionText = question.getTextQuestion();
         Buttons answerButtons = new Buttons();
         answerButtons.createAnswerButtons(question.getAllAnswers());
         answerButtons.addHintButton();
-        botApi.sendBotToUserMessage( user.id, "У вас 2 попытки\n"+questionText, answerButtons );
+        botApi.sendBotToUserMessage(user.id, "У вас 2 попытки\n" + questionText, answerButtons);
         user.scene = sceneFactory.createGameScene();
     }
 }

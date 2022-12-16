@@ -19,8 +19,12 @@ public class SceneFactory {
         return new HintScene(botApi, this, questionProvider);
     };
 
-    public IScene createCallScene() { return new CallScene(botApi, this, questionProvider); };
+    public IScene createCallScene() {
+        return new CallScene(botApi, this, questionProvider);
+    };
 
-    public IScene createAssistScene() {return new AssistScene( botApi, this,questionProvider );};
+    public IScene createAssistScene() {
+        return new AssistScene(botApi, this, questionProvider);
+    };
 
 }
