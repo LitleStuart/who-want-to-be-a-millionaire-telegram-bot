@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bot {
-    Bot(IBotApi botApi, IQuestionProvider questionProvider) {
-        this.sceneFactory = new SceneFactory(botApi,  questionProvider);
+    Bot(SceneFactory sceneFactory) {
+        this.sceneFactory = sceneFactory;
     }
 
     private SceneFactory sceneFactory;
@@ -24,11 +24,10 @@ public class Bot {
     }
 
     public void transferQuestion(long senderId, long receiverId){
-        if (users.get(senderId).currentQuestion==users.get(senderId).storedQuestion) {
-            users.get(receiverId).currentQuestion=users.get(senderId).currentQuestion;
-        }
-        else {
-            users.get(receiverId).currentQuestion=null;
+        Question senderCurQuestion = users.get(senderId).currentQuestion;
+        Question senderStoredQuestion = users.get(senderId).storedQuestion;
+        if (senderCurQuestion==senderStoredQuestion) {
+            users.get(receiverId).currentQuestion=senderCurQuestion;
         }
     }
 
@@ -40,12 +39,14 @@ public class Bot {
         return users.get(userId).lastResponseMessageId.lastElement();
     }
 
-
+    /* FOR DEBUG ONLY
     public void printUsers() {
         for (User user:users.values()){
             System.out.println(user.name);
+            user.printResp();
         }
     }
+    */
 
     private User getUser(Update update) {
         if (users.isEmpty() || !users.containsKey(update.chatId)) {

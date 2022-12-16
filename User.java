@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class User {
@@ -39,13 +40,13 @@ public class User {
         }
     }
 
-    public String getHints(){
-        String result = new String();
-        for (String hint:hints.keySet()) {
-            if (hints.get( hint ) > 0) {
-                result += "\n"+hint;
-            }
-        }
-        return result;
+    public List <String> getHints(){
+        return hints.keySet().stream().toList();
     }
+
+    /* FOR DEBUG ONLY
+    public void printResp(){
+        System.out.println(lastResponseMessageId);
+    }
+    */
 }

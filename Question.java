@@ -25,7 +25,7 @@ public class Question {
     public void updateAnswerText() {
         for (int i = 0; i < 4; i++){
             String ans = variants.get(""+(char)('A'+i)).answer;
-            answersText.put(""+(char)('A'+i), ans);
+            answersText.put(""+(char)('A'+i), ""+(char)('A'+i)+": "+ans);
         }
     }
 
@@ -46,7 +46,7 @@ public class Question {
 
     public String getAnswerText(String letter) {return this.variants.get(letter).answer;}
 
-    public Map<String, String> getAllAnswers() {
-        return answersText;
+    public List<String> getAllAnswers() {
+        return answersText.values().stream().toList();
     }
 }

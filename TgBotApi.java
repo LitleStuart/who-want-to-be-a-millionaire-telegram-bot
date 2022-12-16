@@ -12,11 +12,12 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     private Bot bot;
 
     TgBotApi(IQuestionProvider questionProvider) {
-        bot = new Bot(this, questionProvider);
+        SceneFactory sceneFactory = new SceneFactory(this, questionProvider);
+        bot = new Bot(sceneFactory);
     }
 
     @Override
-    public void sendMessage(long chatId, String text, Buttons... buttons) {
+    public void sendBotToUserMessage(long chatId, String text, Buttons... buttons) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
@@ -37,9 +38,9 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
         }
     }
 
-    public void sendMessage(String username, String text, Buttons... buttons) {
+    public void sendBotToUserMessage(String username, String text, Buttons... buttons) {
         long chatId = bot.getChatId(username);
-        sendMessage(chatId, text, buttons);
+        sendBotToUserMessage(chatId, text, buttons);
     }
 
     @Override
@@ -74,13 +75,15 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     }
 
     @Override
-    public void sendMessage(String sender, String receiver) {
-        long senderId = bot.getChatId(sender);
-        long receiverId = bot.getChatId(receiver);
+    public void sendUserToUserMessage(String senderUsername, String receiverUsername) {
+        long senderId = bot.getChatId( senderUsername );
+        long receiverId = bot.getChatId( receiverUsername );
         try {
             bot.transferQuestion(senderId, receiverId);
+            return;
         } catch (NullPointerException e){
-            sendMessage(senderId, "Игрок "+receiver+" не найден");
+            System.out.println("Transfering from "+senderUsername+" to "+receiverUsername);
+            sendBotToUserMessage(senderId, "Игрок "+ receiverUsername +" не найден");
             e.printStackTrace();
         }
 

@@ -1,19 +1,16 @@
 import org.glassfish.grizzly.utils.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Buttons {
     public List<List <Pair<String,String>>> buttons = null;
-    public void createAnswerButtons(Question question) {
-        Map <String,String> variants = question.getAllAnswers();
+    public void createAnswerButtons(List<String> answerText) {
         List<List<Pair<String,String>>> keyBoard = new ArrayList<>();
         List<Pair<String,String>> keyBoardRow = new ArrayList<>();
         int i=0;
-        for (String key: variants.keySet()){
-            Pair<String,String> newButton = new Pair<String,String>(variants.get(key), key);
+        for (String text: answerText){
+            Pair<String,String> newButton = new Pair<String,String>(text, ""+text.charAt(0));
             keyBoardRow.add(newButton);
             if (i>0 && i%2==1){
                 keyBoard.add(keyBoardRow);
@@ -24,14 +21,11 @@ public class Buttons {
         if (keyBoardRow.size()>0) {
             keyBoard.add(keyBoardRow);
         }
-        keyBoardRow = new ArrayList<>();
-        keyBoardRow.add(new Pair <>("Использовать подсказку", "/hint"));
-        keyBoard.add(keyBoardRow);
         this.buttons=keyBoard;
     }
-    public void createHintButtons(HashMap <String, Integer> hints) {
+    public void createHintButtons(List<String> hints) {
         List <Pair<String,String>> keyBoardRow = new ArrayList<>();
-        for (String key:hints.keySet()){
+        for (String key: hints){
             Pair<String,String> newButton = new Pair<String,String>(key, key);
             keyBoardRow.add(newButton);
         }
@@ -40,7 +34,7 @@ public class Buttons {
         this.buttons=keyBoard;
     }
 
-    public void createHelpButtons(String name) {
+    public void createHelpButton(String name) {
         List<List <Pair<String,String>>> keyBoard = new ArrayList<>();
         List <Pair<String,String>> keyBoardRow = new ArrayList<>();
         keyBoardRow.add(new Pair<>("Help "+name, "/HelpAccepted "+name));
@@ -48,5 +42,11 @@ public class Buttons {
         this.buttons=keyBoard;
     }
 
+    public void addHintButton(){
+        List<List<Pair<String,String>>> keyBoard = this.buttons;
+        List<Pair<String,String>> keyBoardRow = new ArrayList<>();
+        keyBoardRow.add(new Pair <>("Использовать подсказку", "/hint"));
+        keyBoard.add(keyBoardRow);
+    }
     public List<List<Pair<String,String>>> getButtons() {return this.buttons;}
 }

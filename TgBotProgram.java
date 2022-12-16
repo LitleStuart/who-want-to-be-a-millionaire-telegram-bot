@@ -6,7 +6,6 @@ public class TgBotProgram {
     public static void main(String[] args) {
         try {
             IQuestionProvider questionProvider = new JsonQuestionProvider();
-
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(new TgBotApi(questionProvider));
         } catch (TelegramApiException e) {
