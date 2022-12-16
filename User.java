@@ -10,7 +10,7 @@ public class User {
     int highScore;
     Question currentQuestion;
     Question storedQuestion;
-    int currentQuestionIndex;
+    int currentQuestionIndex = 0;
     HashMap<String, Integer> hints;
     Stack<Long> lastResponseMessageId;
     String receiver;
@@ -26,6 +26,12 @@ public class User {
         this.currentQuestion = null;
         this.lastResponseMessageId = new Stack<Long>();
         this.secondChance = false;
+    }
+
+    User(long userId, String username, int currentQuestionIndex, int highscore, IScene scene) {
+        this(userId, username, scene);
+        this.currentQuestionIndex = currentQuestionIndex;
+        this.highScore = highscore;
     }
 
     public void createHints() {

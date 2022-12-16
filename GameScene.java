@@ -18,11 +18,6 @@ public class GameScene implements IScene {
 
     @Override
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
-        if (user.currentQuestion == null) {
-            user.scene = sceneFactory.createMainMenuScene();
-            user.scene.handleMessage(user, botMessage);
-            return;
-        }
         if (botMessage.text.contentEquals("/hint")) {
             executeHintCommand(user);
             return;
@@ -32,10 +27,25 @@ public class GameScene implements IScene {
             return;
         }
         if (isAnswer(botMessage.text)) {
+            if (user.currentQuestion == null) {
+                String headerText = "Извините, у нас произошел сбой, поэтому вам придется ответить на другой вопрос.\n";
+                questionProvider.nextQuestionForUser(user);
+                String questionText = user.currentQuestion.getTextQuestion();
+                Buttons answerButtons = new Buttons();
+                answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
+                answerButtons.addHintButton();
+                botApi.sendBotToUserMessage(user.id, headerText + questionText, answerButtons);
+                return;
+            }
             user.remLastCallBack();
             handleAnswerCommand(user, botMessage);
             return;
         }
+        // if (user.currentQuestion == null) {
+        // user.scene = sceneFactory.createMainMenuScene();
+        // user.scene.handleMessage(user, botMessage);
+        // return;
+        // }
         sceneFactory.createMainMenuScene().handleMessage(user, botMessage);
         return;
     }
