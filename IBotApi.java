@@ -7,5 +7,7 @@ public interface IBotApi {
 
     void editMessage(long chatId, BotMessage newMessage, Buttons... buttons);
 
+    String getLeaderboard();
+
     void deleteMessage(long chatId, long messageId);
 }

@@ -85,6 +85,10 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     }
 
+    public String getLeaderboard() {
+        return bot.getLeaderboard();
+    }
+
     @Override
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
         if (update.hasMessage()) {

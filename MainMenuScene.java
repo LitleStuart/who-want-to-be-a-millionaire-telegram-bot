@@ -22,6 +22,10 @@ public class MainMenuScene implements IScene {
                 executeHelpCommand(user);
                 return;
             }
+            case ("/leaderboard"): {
+                executeLeaderboardCommand(user);
+                return;
+            }
             case ("/start"): {
                 executeStartGameCommand(user);
                 return;
@@ -55,9 +59,15 @@ public class MainMenuScene implements IScene {
         return;
     }
 
+    private void executeLeaderboardCommand(User user) {
+        String responseMessage = botApi.getLeaderboard();
+        botApi.sendBotToUserMessage(user.id, responseMessage);
+    }
+
     private void executeHelpCommand(User user) {
         String responseMessage = "/start – Новая игра\n" +
                 "/info – Статистика\n" +
+                "/leaderboard – Рейтинг\n" +
                 "/exit – Выход из игры\n" +
                 "/help – Показать справку";
         botApi.sendBotToUserMessage(user.id, responseMessage);

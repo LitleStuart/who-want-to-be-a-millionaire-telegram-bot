@@ -44,6 +44,27 @@ public class Database {
         return null;
     }
 
+    public String getLeaderboard() {
+        try {
+            String res = "";
+            Statement statement = connection.createStatement();
+
+            String sql = "select username, highscore from " + databaseName + " order by highscore desc";
+            ResultSet rs = statement.executeQuery(sql);
+
+            int rank = 1;
+            while (rs.next()) {
+                res += rank + ". " + rs.getString("username") + " – " + rs.getInt("highscore") + "\n";
+                rank++;
+            }
+
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void updateUserInfo(long userId, String username, int currentQuestionNumber, String qurrentQuestionText,
             int highScore) {
         try {

@@ -70,6 +70,10 @@ public class Bot {
         return users;
     }
 
+    public String getLeaderboard() {
+        return database.getLeaderboard();
+    }
+
     /*
      * FOR DEBUG ONLY
      * public void printUsers() {
