@@ -24,7 +24,8 @@ public class AssistScene implements IScene {
             }
             user.remLastCallBack();
             botApi.deleteMessage(user.id, botMessage.messageId);
-            user.scene = sceneFactory.createGameScene();
+            //user.scene = sceneFactory.createGameScene();
+            user.sceneState = "Game";
         }
     }
 }

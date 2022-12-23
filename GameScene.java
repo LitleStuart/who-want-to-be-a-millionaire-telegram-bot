@@ -67,20 +67,23 @@ public class GameScene implements IScene {
             Buttons hintButtons = new Buttons();
             hintButtons.createHintButtons(user.getHints());
             botApi.sendBotToUserMessage(user.id, hintText, hintButtons);
-            user.scene = sceneFactory.createHintScene();
+            //user.scene = sceneFactory.createHintScene();
+            user.sceneState = "Hint";
         }
     }
 
     private void executeGameExitCommand(User user) {
-        botApi.sendBotToUserMessage(user.id, "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1)
-                + "\n\nЧтобы начать новую игру, введите /start");
+        Buttons gameOverButtons = new Buttons();
+        gameOverButtons.createGameOverButtons();
+        String text = "Игра окончена.\n\nВаш счет: " + (user.currentQuestionIndex - 1) + '\n';
+        botApi.sendBotToUserMessage(user.id, text, gameOverButtons);
         if (user.currentQuestionIndex - 1 > user.highScore) {
             user.highScore = user.currentQuestionIndex - 1;
         }
         user.currentQuestion = null;
         user.currentQuestionIndex = 0;
-        user.scene = sceneFactory.createMainMenuScene();
-
+        //user.scene = sceneFactory.createMainMenuScene();
+        user.sceneState = "MainMenu";
     }
 
     private void executeRightAnswerCommand(User user, BotMessage botMessage) throws IOException {

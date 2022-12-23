@@ -17,8 +17,9 @@ public class Bot {
 
     public void handleMessage(Update update) throws IOException {
         User user = getUser(update);
-        user.scene.handleMessage(user, update.botMessage);
-        System.out.println(user.id + "–" + user.highScore);
+        //user.scene.handleMessage(user, update.botMessage);
+        sceneFactory.getScene(user.sceneState).handleMessage(user, update.botMessage);
+        //System.out.println(user.id + "–" + user.highScore);
         database.updateUserInfo(user.id, user.username, user.currentQuestionIndex,
                 user.currentQuestion != null ? user.currentQuestion.getTextQuestion() : "", user.highScore);
     }

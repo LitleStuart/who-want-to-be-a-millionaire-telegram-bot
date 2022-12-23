@@ -18,6 +18,11 @@ public class MainMenuScene implements IScene {
             return;
         }
         switch (botMessage.text) {
+            case("/start"):
+            {
+                executeMainMenuCommand(user);
+                return;
+            }
             case ("/help"): {
                 executeHelpCommand(user);
                 return;
@@ -26,7 +31,7 @@ public class MainMenuScene implements IScene {
                 executeLeaderboardCommand(user);
                 return;
             }
-            case ("/start"): {
+            case ("/begin"): {
                 executeStartGameCommand(user);
                 return;
             }
@@ -42,6 +47,13 @@ public class MainMenuScene implements IScene {
         }
     }
 
+    private void executeMainMenuCommand(User user) {
+        Buttons menuButtons = new Buttons();
+        menuButtons.createMainMenuButtons();
+        String text = "Вас приветствует MillionaireBot";
+        botApi.sendBotToUserMessage(user.id, text, menuButtons);
+    }
+
     private void executeAssistCommand(User user, BotMessage botMessage) {
         user.remLastCallBack();
         botApi.deleteMessage(user.id, botMessage.messageId);
@@ -55,7 +67,8 @@ public class MainMenuScene implements IScene {
         String fullQuestionText = user.currentQuestion.getTextQuestion();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         botApi.sendBotToUserMessage(user.id, fullQuestionText, answerButtons);
-        user.scene = sceneFactory.createAssistScene();
+        //user.scene = sceneFactory.createAssistScene();
+        user.sceneState = "Assist";
         return;
     }
 
@@ -65,10 +78,9 @@ public class MainMenuScene implements IScene {
     }
 
     private void executeHelpCommand(User user) {
-        String responseMessage = "/start – Новая игра\n" +
+        String responseMessage = "/begin – Новая игра\n" +
                 "/info – Статистика\n" +
                 "/leaderboard – Рейтинг\n" +
-                "/exit – Выход из игры\n" +
                 "/help – Показать справку";
         botApi.sendBotToUserMessage(user.id, responseMessage);
     }
@@ -82,7 +94,8 @@ public class MainMenuScene implements IScene {
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         answerButtons.addHintButton();
         botApi.sendBotToUserMessage(user.id, questionText, answerButtons);
-        user.scene = sceneFactory.createGameScene();
+        //user.scene = sceneFactory.createGameScene();
+        user.sceneState = "Game";
     }
 
     private void executeInfoCommand(User user) {

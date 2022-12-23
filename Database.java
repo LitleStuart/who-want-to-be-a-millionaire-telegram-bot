@@ -11,6 +11,8 @@ public class Database {
     private String databaseName = null;
     private Connection connection = null;
 
+    //List<User> ??? мб сюда можно перенести юзеров
+
     public Database(String databaseName) {
         this.databaseName = databaseName;
         databaseUrl = "jdbc:sqlite:" + databaseName + ".db";

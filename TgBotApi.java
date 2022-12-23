@@ -1,5 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.Scanner;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -9,10 +11,19 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     private Bot bot;
+    private String botName;
+    private String botToken;
 
     TgBotApi(IQuestionProvider questionProvider) {
         SceneFactory sceneFactory = new SceneFactory(this, questionProvider);
         bot = new Bot(sceneFactory);
+        try (Scanner s = new Scanner(new File("botinfo.txt")).useDelimiter("\\n")){
+            this.botName = s.next();
+            this.botToken = s.next();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -127,11 +138,11 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
 
     @Override
     public String getBotUsername() {
-        return null;
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return null;
+        return botToken;
     }
 }
