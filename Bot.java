@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +18,9 @@ public class Bot {
 
     public void handleMessage(Update update) throws IOException {
         User user = getUser(update);
-        //user.scene.handleMessage(user, update.botMessage);
+        // user.scene.handleMessage(user, update.botMessage);
         sceneFactory.getScene(user.sceneState).handleMessage(user, update.botMessage);
-        //System.out.println(user.id + "–" + user.highScore);
+        // System.out.println(user.id + "–" + user.highScore);
         database.updateUserInfo(user.id, user.username, user.currentQuestionIndex,
                 user.currentQuestion != null ? user.currentQuestion.getTextQuestion() : "", user.highScore);
     }
@@ -72,7 +73,14 @@ public class Bot {
     }
 
     public String getLeaderboard() {
-        return database.getLeaderboard();
+        String res = "";
+        ArrayList<String[]> data = database.getLeaderboard();
+
+        for (int i = 0; i < data.size(); i++) {
+            res += (i + 1) + ". " + data.get(i)[0] + " – " + data.get(i)[1] + "\n";
+        }
+
+        return res;
     }
 
     /*

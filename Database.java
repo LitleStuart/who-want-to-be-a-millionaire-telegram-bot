@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class Database {
     private String databaseName = null;
     private Connection connection = null;
 
-    //List<User> ??? мб сюда можно перенести юзеров
+    // List<User> ??? мб сюда можно перенести юзеров
 
     public Database(String databaseName) {
         this.databaseName = databaseName;
@@ -46,18 +47,17 @@ public class Database {
         return null;
     }
 
-    public String getLeaderboard() {
+    public ArrayList<String[]> getLeaderboard() {
         try {
-            String res = "";
+            ArrayList<String[]> res = new ArrayList<String[]>();
             Statement statement = connection.createStatement();
 
             String sql = "select username, highscore from " + databaseName + " order by highscore desc";
             ResultSet rs = statement.executeQuery(sql);
 
-            int rank = 1;
             while (rs.next()) {
-                res += rank + ". " + rs.getString("username") + " – " + rs.getInt("highscore") + "\n";
-                rank++;
+                String[] temp = { rs.getString("username"), Integer.toString(rs.getInt("highscore")) };
+                res.add(temp);
             }
 
             return res;
