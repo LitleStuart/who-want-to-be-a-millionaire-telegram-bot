@@ -21,7 +21,7 @@ public class HintScene implements IScene {
                 user.hints.remove("50/50");
                 handleFifty(user);
                 botApi.deleteMessage(user.id, botMessage.messageId);
-                //user.scene = sceneFactory.createGameScene();
+                // user.scene = sceneFactory.createGameScene();
                 user.sceneState = "Game";
                 break;
             }
@@ -47,7 +47,7 @@ public class HintScene implements IScene {
             }
             default:
                 botApi.sendBotToUserMessage(user.id, "Раздел в разработке. Играйте пока без подсказок :)");
-                //user.scene = sceneFactory.createGameScene();
+                // user.scene = sceneFactory.createGameScene();
                 user.sceneState = "Game";
                 break;
         }
@@ -75,7 +75,7 @@ public class HintScene implements IScene {
     private void handleCall(User user, BotMessage botMessage) {
         botApi.sendBotToUserMessage(user.id, "Введите имя пользователя");
         user.storedQuestion = user.currentQuestion;
-        //user.scene = sceneFactory.createCallScene();
+        // user.scene = sceneFactory.createCallScene();
         user.sceneState = "Call";
     }
 
@@ -88,7 +88,7 @@ public class HintScene implements IScene {
         answerButtons.createAnswerButtons(question.getAllAnswers());
         answerButtons.addHintButton();
         botApi.sendBotToUserMessage(user.id, "У вас 2 попытки\n" + questionText, answerButtons);
-        //user.scene = sceneFactory.createGameScene();
+        // user.scene = sceneFactory.createGameScene();
         user.sceneState = "Game";
     }
 }

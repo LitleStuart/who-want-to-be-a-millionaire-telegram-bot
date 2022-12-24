@@ -44,23 +44,23 @@ public class Buttons {
         this.buttons = keyBoard;
     }
 
-    public void createMainMenuButtons(){
+    public void createMainMenuButtons() {
         List<List<Pair<String, String>>> keyBoard = new ArrayList<>();
         List<Pair<String, String>> keyBoardRow = new ArrayList<>();
-        keyBoardRow.add(new Pair <>("Начать игру", "/begin"));
+        keyBoardRow.add(new Pair<>("Начать игру", "/begin"));
         keyBoardRow.add(new Pair<>("Профиль", "/info"));
         keyBoard.add(keyBoardRow);
         keyBoardRow = new ArrayList<>();
-        keyBoardRow.add(new Pair <>("Лидеры", "/leaderboard"));
-        keyBoardRow.add(new Pair <>("Помощь", "/help"));
+        keyBoardRow.add(new Pair<>("Лидеры", "/leaderboard"));
+        keyBoardRow.add(new Pair<>("Помощь", "/help"));
         keyBoard.add(keyBoardRow);
         this.buttons = keyBoard;
     }
 
-    public void createGameOverButtons(){
+    public void createGameOverButtons() {
         List<List<Pair<String, String>>> keyBoard = new ArrayList<>();
         List<Pair<String, String>> keyBoardRow = new ArrayList<>();
-        keyBoardRow.add(new Pair <>("Новая игра", "/begin"));
+        keyBoardRow.add(new Pair<>("Новая игра", "/begin"));
         keyBoardRow.add(new Pair<>("Меню", "/start"));
         keyBoard.add(keyBoardRow);
         this.buttons = keyBoard;

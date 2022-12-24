@@ -18,8 +18,7 @@ public class MainMenuScene implements IScene {
             return;
         }
         switch (botMessage.text) {
-            case("/start"):
-            {
+            case ("/start"): {
                 executeMainMenuCommand(user);
                 return;
             }
@@ -67,7 +66,7 @@ public class MainMenuScene implements IScene {
         String fullQuestionText = user.currentQuestion.getTextQuestion();
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         botApi.sendBotToUserMessage(user.id, fullQuestionText, answerButtons);
-        //user.scene = sceneFactory.createAssistScene();
+        // user.scene = sceneFactory.createAssistScene();
         user.sceneState = "Assist";
         return;
     }
@@ -94,7 +93,7 @@ public class MainMenuScene implements IScene {
         answerButtons.createAnswerButtons(user.currentQuestion.getAllAnswers());
         answerButtons.addHintButton();
         botApi.sendBotToUserMessage(user.id, questionText, answerButtons);
-        //user.scene = sceneFactory.createGameScene();
+        // user.scene = sceneFactory.createGameScene();
         user.sceneState = "Game";
     }
 

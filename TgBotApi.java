@@ -17,7 +17,7 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
     TgBotApi(IQuestionProvider questionProvider) {
         SceneFactory sceneFactory = new SceneFactory(this, questionProvider);
         bot = new Bot(sceneFactory);
-        try (Scanner s = new Scanner(new File("botinfo.txt")).useDelimiter("\\n")){
+        try (Scanner s = new Scanner(new File("botinfo.txt")).useDelimiter("\\n")) {
             this.botName = s.next();
             this.botToken = s.next();
         } catch (FileNotFoundException e) {

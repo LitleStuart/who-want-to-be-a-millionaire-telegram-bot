@@ -27,15 +27,27 @@ public class SceneFactory {
         return new AssistScene(botApi, this, questionProvider);
     };
 
-    //Хз насколько это нормально, выглядит как костыль если честно, но теперь нет циклической зависимости
-    //Еще юзер теперь не зависит от api, scenefactory, questionprovider(ну он и не должен лол)
+    // Хз насколько это нормально, выглядит как костыль если честно, но теперь нет
+    // циклической зависимости
+    // Еще юзер теперь не зависит от api, scenefactory, questionprovider(ну он и не
+    // должен лол)
     public IScene getScene(String sceneName) {
-        switch (sceneName){
-            case ("Game") : {return createGameScene();}
-            case ("Hint") : {return createHintScene();}
-            case ("Call") : {return createCallScene();}
-            case ("Assist") : {return createAssistScene();}
-            default: {return createMainMenuScene();}
+        switch (sceneName) {
+            case ("Game"): {
+                return createGameScene();
+            }
+            case ("Hint"): {
+                return createHintScene();
+            }
+            case ("Call"): {
+                return createCallScene();
+            }
+            case ("Assist"): {
+                return createAssistScene();
+            }
+            default: {
+                return createMainMenuScene();
+            }
         }
     }
 }

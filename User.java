@@ -5,10 +5,10 @@ import java.util.Stack;
 public class User {
     long id;
     /*
-    IScene scene;
-    IScene prevScene;
-    Хранить id/название сцены вместо самой сцены???
-    */
+     * IScene scene;
+     * IScene prevScene;
+     * Хранить id/название сцены вместо самой сцены???
+     */
     String sceneState;
     String username;
     int highScore;
@@ -23,9 +23,9 @@ public class User {
     User(long chatId, String username, IScene scene) {
         this.id = chatId;
         /*
-        this.scene = scene;
-        this.prevScene = null;
-        */
+         * this.scene = scene;
+         * this.prevScene = null;
+         */
         this.sceneState = "MainMenu";
         this.username = username;
         this.highScore = 0;

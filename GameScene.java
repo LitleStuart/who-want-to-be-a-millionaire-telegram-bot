@@ -67,7 +67,7 @@ public class GameScene implements IScene {
             Buttons hintButtons = new Buttons();
             hintButtons.createHintButtons(user.getHints());
             botApi.sendBotToUserMessage(user.id, hintText, hintButtons);
-            //user.scene = sceneFactory.createHintScene();
+            // user.scene = sceneFactory.createHintScene();
             user.sceneState = "Hint";
         }
     }
@@ -82,7 +82,7 @@ public class GameScene implements IScene {
         }
         user.currentQuestion = null;
         user.currentQuestionIndex = 0;
-        //user.scene = sceneFactory.createMainMenuScene();
+        // user.scene = sceneFactory.createMainMenuScene();
         user.sceneState = "MainMenu";
     }
 

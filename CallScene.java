@@ -14,7 +14,7 @@ public class CallScene implements IScene {
     public void handleMessage(User user, BotMessage botMessage) throws IOException {
         if (user.username.equals(botMessage.text)) {
             botApi.sendBotToUserMessage(user.id, "Спросить себя можно было и без подсказки");
-            //user.scene = sceneFactory.createGameScene();
+            // user.scene = sceneFactory.createGameScene();
             user.sceneState = "Game";
             return;
         }
@@ -23,7 +23,7 @@ public class CallScene implements IScene {
         buttons.createHelpButton(user.username);
         String message = "Игрок " + user.username + " просит помощи";
         botApi.sendBotToUserMessage(botMessage.text, message, buttons);
-        //user.scene = sceneFactory.createGameScene();
+        // user.scene = sceneFactory.createGameScene();
         user.sceneState = "Game";
     }
 
