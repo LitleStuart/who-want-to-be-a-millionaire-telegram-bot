@@ -55,7 +55,7 @@ public class Bot {
 
         ArrayList<String[]> rs = database.getUsers();
         for (int i = 0; i < rs.size(); i++) {
-            Long userId = Long.getLong(rs.get(i)[0]);
+            Long userId = Long.parseLong(rs.get(i)[0]);
             String username = rs.get(i)[1];
             int currentQuestionIndex = Integer.parseInt(rs.get(i)[2]);
             // String currentQuestionText = rs.get(i)[0];
