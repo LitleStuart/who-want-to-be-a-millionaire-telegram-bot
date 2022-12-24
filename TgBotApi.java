@@ -110,6 +110,7 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
             String username = message.getFrom().getUserName() != null
                     ? message.getFrom().getUserName()
                     : message.getFrom().getFirstName();
+            System.out.println(chatId + " – " + username + " – " + text);
             try {
                 bot.handleMessage(new Update(chatId, username, new BotMessage(text, messageId)));
             } catch (IOException e) {
@@ -125,6 +126,7 @@ public class TgBotApi extends TelegramLongPollingBot implements IBotApi {
                     ? message.getFrom().getUserName()
                     : message.getFrom().getFirstName();
 
+            System.out.println(chatId + " – " + username + " – " + text);
             if (message.getMessageId() == bot.getLastRespMessageId(chatId)) {
                 try {
                     bot.handleMessage(new Update(chatId, username, new BotMessage(text, messageId)));
