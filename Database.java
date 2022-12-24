@@ -34,13 +34,24 @@ public class Database {
         }
     }
 
-    public ResultSet getUsers() {
+    public ArrayList<String[]> getUsers() {
         try {
             Statement statement = connection.createStatement();
             String sql = "select * from " + databaseName;
             ResultSet resultSet = statement.executeQuery(sql);
 
-            return resultSet;
+            ArrayList<String[]> res = new ArrayList<String[]>();
+            while (resultSet.next()) {
+                Long userId = resultSet.getLong("id");
+                String username = resultSet.getString("username");
+                int currentQuestionIndex = resultSet.getInt("curQuestionNum");
+                int highscore = resultSet.getInt("highscore");
+                String[] temp = { Long.toString(userId), username, Integer.toString(currentQuestionIndex),
+                        Integer.toString(highscore) };
+                res.add(temp);
+            }
+
+            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }

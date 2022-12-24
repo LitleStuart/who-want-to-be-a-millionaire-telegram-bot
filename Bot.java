@@ -53,20 +53,16 @@ public class Bot {
     private Map<Long, User> getUsersFromDatabase() {
         Map<Long, User> users = new HashMap<Long, User>();
 
-        ResultSet rs = database.getUsers();
-        try {
-            while (rs.next()) {
-                Long userId = rs.getLong("id");
-                String username = rs.getString("username");
-                int currentQuestionIndex = rs.getInt("curQuestionNum");
-                // String currentQuestionText = rs.getString("curQuestionText");
-                int highscore = rs.getInt("highscore");
-                IScene scene = currentQuestionIndex > 0 ? sceneFactory.createGameScene()
-                        : sceneFactory.createMainMenuScene();
-                users.put(userId, new User(userId, username, currentQuestionIndex, highscore, scene));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ArrayList<String[]> rs = database.getUsers();
+        for (int i = 0; i < rs.size(); i++) {
+            Long userId = Long.getLong(rs.get(i)[0]);
+            String username = rs.get(i)[1];
+            int currentQuestionIndex = Integer.parseInt(rs.get(i)[2]);
+            // String currentQuestionText = rs.get(i)[0];
+            int highscore = Integer.parseInt(rs.get(i)[3]);
+            IScene scene = currentQuestionIndex > 0 ? sceneFactory.createGameScene()
+                    : sceneFactory.createMainMenuScene();
+            users.put(userId, new User(userId, username, currentQuestionIndex, highscore, scene));
         }
 
         return users;
